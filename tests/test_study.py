@@ -73,6 +73,13 @@ def test_finished_file_is_skipped_and_absent_file_starts_at_zero(tmp_path):
     assert study.resume_point(path) is None
 
 
+def test_a_second_concurrent_run_is_refused_and_a_finished_one_leaves_no_lock(tmp_path):
+    with study.run_lock(tmp_path), pytest.raises(RuntimeError, match="another run"):
+        study.run_lock(tmp_path).__enter__()
+    with study.run_lock(tmp_path):
+        pass
+
+
 def test_a_header_with_the_wrong_version_is_refused(tmp_path):
     env = study.Env("scipy", "1.9.3", "t1", (("numpy", "1.25.2"), ("scipy", "1.9.3")), "3.11")
     path = tmp_path / "r.jsonl"

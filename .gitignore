@@ -7,3 +7,4 @@ dist/
 tmp/
 results/repeat/
 results/*.log
+results/.run.lock

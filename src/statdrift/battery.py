@@ -949,5 +949,5 @@ def write(directory: Path) -> str:
         raise ValueError("rebuilt battery differs from the frozen hash; bump it deliberately")
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "battery.json").write_bytes(raw)
-    pin.write_text(digest + "\n", encoding="ascii")
+    pin.write_text(digest + "\n", encoding="ascii", newline="\n")
     return digest

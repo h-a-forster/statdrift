@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use statdrift, please cite it as below."
+title: statdrift
+abstract: >-
+  A frozen battery of statistical calls run under every minor SciPy release from 1.9 to
+  1.18 and every statsmodels release from 0.13.5 to 0.15.0, in pinned environments that
+  share a toolchain across each diffed pair. It measures how often outputs change, how often
+  a p-value crosses 0.05 or 0.01, and how often the release notes named the function.
+type: software
+authors:
+  - name: h-a-forster
+repository-code: "https://github.com/h-a-forster/statdrift"
+license: MIT
+version: 0.1.0
+date-released: "2026-11-06"
+keywords:
+  - reproducibility
+  - statistical software
+  - scipy
+  - statsmodels
+  - software drift

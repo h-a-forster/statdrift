@@ -105,6 +105,18 @@ def test_new_result_fields_are_counted_apart_from_cells(results):
     assert tally["field_added"] == 1
 
 
+def test_a_scalar_that_becomes_an_array_is_a_status_change(results):
+    scalar = make_row(field="statistic", value="nan")
+    matrix = [
+        make_row(field="statistic[0,0]", value=1.0),
+        make_row(field="statistic[0,1]", value=0.5),
+    ]
+    tally, changes = compare(results, [scalar], matrix)
+    assert tally["cells"] == 2
+    assert tally[diff.STATUS] == 2
+    assert all(c.material for c in changes)
+
+
 def test_dtype_and_warning_changes_are_not_numeric_changes(results):
     tally, changes = compare(results, [make_row(dtype="int64")], [make_row(dtype="float64")])
     assert tally[diff.DTYPE] == 1
@@ -128,8 +140,7 @@ def test_different_batteries_are_refused(results):
 def test_unstable_cells_are_dropped(results):
     _, a = diff.load(results("a.jsonl", [make_row(value=0.2)]))
     _, b = diff.load(results("b.jsonl", [make_row(value=0.9)]))
-    key = ("scipy.stats.f", "default", "in", "pvalue")
-    tally, changes = diff.compare(a, b, {key})
+    tally, changes = diff.compare(a, b, {("scipy.stats.f", "default", "in")})
     assert not changes
     assert tally["grid"] == {"unstable": 1}
 

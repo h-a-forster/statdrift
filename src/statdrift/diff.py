@@ -69,6 +69,8 @@ def differs(a: float, b: float, kind: str, tol: float) -> bool:
 
 def classify(a: dict, b: dict) -> str:
     """Label one pair of rows, in order of what a user would notice first."""
+    if a["field"] != b["field"] and "*" not in (a["field"], b["field"]):
+        return STATUS  # the output changed shape, say from a scalar NaN to a matrix
     ea, eb = a["exception"], b["exception"]
     if ea == KEYWORD:
         return NOT_APPLICABLE if eb == KEYWORD else API_ADDED
@@ -91,7 +93,22 @@ def pairs_of(a: dict[str, dict], b: dict[str, dict]) -> list[tuple[str, dict | N
         return [(f, a["*"], row) for f, row in sorted(b.items())] or [("*", a["*"], None)]
     if "*" in b and "*" not in a:
         return [(f, row, b["*"]) for f, row in sorted(a.items())] or [("*", None, b["*"])]
-    return [(f, a.get(f), b.get(f)) for f in sorted(a.keys() | b.keys())]
+    out: list[tuple[str, dict | None, dict | None]] = []
+    for stem in sorted({f.split("[")[0] for f in a.keys() | b.keys()}):
+        left = {f: row for f, row in a.items() if f.split("[")[0] == stem}
+        right = {f: row for f, row in b.items() if f.split("[")[0] == stem}
+        if left and right and left.keys() != right.keys():
+            # The output changed shape, say from a scalar NaN to a matrix: each leaf of the
+            # larger side is one cell, set against the smaller side's matching or first leaf.
+            if len(left) >= len(right):
+                first = right[min(right)]
+                out += [(f, row, right.get(f, first)) for f, row in sorted(left.items())]
+            else:
+                first = left[min(left)]
+                out += [(f, left.get(f, first), row) for f, row in sorted(right.items())]
+        else:
+            out += [(f, left.get(f), right.get(f)) for f in sorted(left.keys() | right.keys())]
+    return out
 
 
 @dataclass
@@ -125,7 +142,7 @@ def shown(row: dict) -> object:
 def compare(
     a: dict[Key, dict[str, dict]],
     b: dict[Key, dict[str, dict]],
-    unstable: set[tuple] = frozenset(),
+    unstable: set[Key] = frozenset(),
 ) -> tuple[dict[str, dict[str, int]], list[Change]]:
     """Count cells by group and label, and list every changed cell."""
     if set(a) != set(b):
@@ -135,7 +152,7 @@ def compare(
     for key in sorted(a):
         for field, ra, rb in pairs_of(a[key], b[key]):
             tally = counts[(ra or rb)["group"]]
-            if (*key, field) in unstable:
+            if key in unstable:
                 tally["unstable"] += 1
             elif ra is None or rb is None:
                 tally["field_added" if ra is None else "field_removed"] += 1

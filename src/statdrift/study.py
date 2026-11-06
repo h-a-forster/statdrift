@@ -11,6 +11,8 @@ import subprocess
 import sys
 import threading
 import tomllib
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -205,7 +207,29 @@ def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+@contextmanager
+def run_lock(root: Path) -> Iterator[None]:
+    """Refuse a second concurrent run: two writers would interleave rows in one file."""
+    path = root / "results" / ".run.lock"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        path.touch(exist_ok=False)
+    except FileExistsError:
+        raise RuntimeError(
+            f"{path} exists: another run is active, or delete a stale lock"
+        ) from None
+    try:
+        yield
+    finally:
+        path.unlink()
+
+
 def run_all(only: str | None, root: Path = ROOT, repeat: bool = False) -> None:
+    with run_lock(root):
+        _run_all(only, root, repeat)
+
+
+def _run_all(only: str | None, root: Path, repeat: bool) -> None:
     pin = (root / "battery" / "battery.sha256").read_text(encoding="ascii").strip()
     if file_hash(root / "battery" / "battery.json") != pin:
         raise ValueError("battery.json does not match battery.sha256")
