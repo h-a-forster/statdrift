@@ -5,6 +5,5 @@ __pycache__/
 .ruff_cache/
 dist/
 tmp/
-results/repeat/
 results/*.log
 results/.run.lock
