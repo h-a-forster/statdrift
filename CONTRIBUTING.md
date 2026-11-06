@@ -34,9 +34,9 @@ pytest's `tmp_path`, and pass on Windows. A bug fix comes with a test that fails
   3.9. `diff.py` stays standard library only.
 - Do not edit generated files: `results/summary.*`, `results/changes.jsonl`,
   `results/documented.csv`, `results/repeatability.json`. `results/coding.csv` is
-  hand-written; each verdict quotes its evidence.
-- Tables in `REPORT.md`, once it is added, are copied from `results/summary.md`, and a test
-  checks that.
+  hand-written; each verdict quotes its evidence and groups the unit under an upstream change.
+- The README's headline table and the tables in `REPORT.md`, once it is added, are copied
+  from `results/summary.md`, and tests check that.
 - Code style: Python 3.11+, typed, line length 100, ruff enforces the rest.
 
 Security issues: see [SECURITY.md](SECURITY.md).

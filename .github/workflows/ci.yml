@@ -60,5 +60,6 @@ jobs:
         # Rebuilds every summary from the committed result files, offline.
         shell: bash
         run: |
+          uv run statdrift repeat
           uv run statdrift diff
           git diff --exit-code results/

@@ -8,6 +8,7 @@ import re
 import urllib.request
 from pathlib import Path
 
+FETCH_TIMEOUT = 60.0  # seconds, so a stalled server fails instead of hanging the command
 ANY = "any"  # anywhere except the author list
 NARRATIVE = "narrative"  # outside the issue and pull-request lists
 COMPATIBILITY = "compatibility"  # a backwards-incompatible or deprecation section
@@ -31,7 +32,7 @@ BREAKING = re.compile(r"backwards?[- ]incompatible|breaking|deprecat|expired", r
 
 def fetch(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": "statdrift"})
-    with urllib.request.urlopen(request) as response:
+    with urllib.request.urlopen(request, timeout=FETCH_TIMEOUT) as response:
         return response.read()
 
 

@@ -34,6 +34,10 @@ def is_number(value: object) -> bool:
     return isinstance(value, bool | int | float)
 
 
+def has_number(row: dict) -> bool:
+    return not row["exception"] and is_number(row["value"])
+
+
 def load(path: Path) -> tuple[dict, dict[Key, dict[str, dict]]]:
     """Read a results file. Fails on a file with no end marker: partial runs are not data."""
     meta: dict = {}
@@ -175,8 +179,8 @@ def _count_cell(
     kind = "p" if "p" in (ra["kind"], rb["kind"]) else "x"
     rel = delta = None
     flips: list[float] = []
-    plain = not ra["exception"] and not rb["exception"]
-    numbers = plain and is_number(ra["value"]) and is_number(rb["value"])
+    before, after = has_number(ra), has_number(rb)
+    numbers = before and after
     if numbers:
         x, y = float(ra["value"]), float(rb["value"])
         rel = relative(x, y)
@@ -193,8 +197,10 @@ def _count_cell(
             for alpha in flips:
                 tally[f"flip{alpha:g}"] += 1
             tally["p_flipped"] += bool(flips)
-        elif label == STATUS:
+        elif before:
             tally["p_lost"] += 1
+        elif after:
+            tally["p_gained"] += 1
     if label not in (NUMERIC, STATUS, DTYPE):
         return None
     if kind != "p":

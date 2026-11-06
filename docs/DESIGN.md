@@ -70,7 +70,9 @@ Windows under numpy 1.x, because that is what a user's array gets.
 by `(20261106, crc32(input id))` and stored as JSON, so no environment generates data.
 
 SciPy: 67 callables in `scipy.stats` and `scipy.stats.mstats`, all present in SciPy 1.9.3.
-statsmodels: 17 callables. Inputs: seeded draws, n = 3 to 8 and up, n near known method
+Of the 67, 65 are in the grid; `bootstrap` and `permutation_test` take a seeded `Generator` and
+are in group `stochastic` only, so a SciPy step has 65 function-release units. statsmodels: 17
+callables. Inputs: seeded draws, n = 3 to 8 and up, n near known method
 switches (9, 20/21, 25/26, 33/34, 50/51, 54/55, 10000/10001), ties, zeros, constant arrays,
 extreme effects, NaN under each `nan_policy`, degenerate tables, near-collinear designs,
 perfect separation.
@@ -90,7 +92,9 @@ and no output was kept.
 ## 5. Cells and classes
 
 A row is one (function, variant, input, field) with value, dtype, warning categories and
-exception type. A call that raises writes one row with field `*`.
+exception type. A call that raises writes one row with field `*`, and so does a call that
+returns with none of its fields, as exception `NoFields`: without a row the call would be
+absent from that file and the differ would refuse the pair.
 
 For a pair of releases, each cell is exactly one of:
 
@@ -117,9 +121,10 @@ step.
 1. Change rate: (numeric + status) / cells. Also functions with at least one changed cell,
    over functions.
 2. Decision-flip rate: p-value cells where `a < alpha` and `b < alpha` disagree, for alpha
-   0.05 and 0.01, over p-value cells. A p-value that becomes NaN or an exception is "p lost",
-   counted apart. The denominator depends on how many inputs sit near a threshold, which is
-   a property of this battery.
+   0.05 and 0.01, over p-value cells. A number that becomes NaN, infinite, masked or an
+   exception is "p lost"; the reverse is "p gained"; both are counted apart. A p cell with no
+   number on either side, such as a ValueError that becomes NaN, is neither. The denominator
+   depends on how many inputs sit near a threshold, which is a property of this battery.
 3. Documented share: section 7.
 4. Magnitude: the distribution of `abs(delta p)` over numeric p-value changes.
 
@@ -148,20 +153,28 @@ every line naming the function, plus blanket statements, against the observed ce
 - explained: a line states this change.
 - pointed: explained, or a line about the implicated behaviour that does not say results
   change (for example "gained `nan_policy` support").
-- silent: neither.
+- silent: neither, under this function's name. A function moved by a helper counts as silent
+  even when the helper's own change is stated.
 
 `results/coding.csv` holds the verdict and the evidence for each unit, so every call can be
 checked and overturned. This coding happens after the results are known and has one coder;
 it is a judgement, not a measurement.
 
-Interval: Clopper-Pearson with changed function-releases as units. They are neither a
-random sample nor independent, so the interval describes noise in a share over these units,
-not a population of functions.
+Units cluster, so the coding also names the upstream change behind each material unit (column
+`upstream`). Two units of one step share a change when one note line covers both or when one
+calls the other (`mstats.pearsonr`, `mstats.ks_2samp`, `mstats.linregress`, and the functions
+that rank through `rankdata`). A change takes the strongest tier of its units, and the summary
+reports these changes next to the function-releases.
+
+Interval: Clopper-Pearson with changed function-releases or upstream changes as units. Neither
+is a random sample, and function-releases are not independent, so the interval describes noise
+in a share over these units, not a population of functions.
 
 ## 8. Validity checks
 
 - Null control: every environment runs twice. The files must match byte for byte, otherwise
-  the differing cells are listed in `results/repeatability.json` and excluded.
+  the differing cells are listed in `results/repeatability.json` and excluded. The second runs
+  are committed in `results/repeat/`, so the exclusions can be rederived without a rerun.
 - Positive controls: group `control` runs five inputs taken from the SciPy 1.18.0 notes
   (rankdata dtype, binomtest attribute dtype, multinomial with unnormalised p, spearmanr
   constant detection, pmean with tiny p). `report.CONTROLS` states what must be seen in
@@ -198,8 +211,11 @@ No release-to-release measurement of drift in statistical software was found.
 
 ## 11. Changes after the freeze
 
-The battery, the runner and the environments are unchanged since the freeze commit
-(`601d189`). Everything below happened after results were visible, unless stated.
+The battery and the matrix in `configs/study.toml` are unchanged since the freeze commit
+(`601d189`). That commit held the locks of the four chain ends used for the field-path check;
+the other 19 environments were locked from the same matrix and first committed in `3bcf3a2`.
+`battery.py` changed in one line, the line ending of the hash file. Everything below happened
+after results were visible, unless stated.
 
 - First full run discarded before any diff. Two drivers ran at once and interleaved rows in
   the same files. `statdrift run` now takes a lock; only the clean rerun is committed.
@@ -213,4 +229,28 @@ The battery, the runner and the environments are unchanged since the freeze comm
 - Tier "pointed" and verdict "silent" were added to the coding when reading showed that
   "explained" alone hid lines that hint at a change without stating it.
 - The split into ordinary and degenerate inputs (`report.DEGENERATE`) is post hoc and
-  descriptive.
+  descriptive. `extreme` left the list in the audit below: those inputs are normal samples
+  with large location shifts, and the one flip on ordinary data had been filed as degenerate.
+- Audit of the finished study, 2026-11-06. No measured cell changed: `results/changes.jsonl` and
+  every result file are as before. Reporting: "p lost" counted every status change on a p cell
+  (SciPy 42, statsmodels 7) and now follows section 6 (15 and 0), with "p gained" beside it (6
+  and 6). Added: the upstream grouping of section 7, a table of the flipped cells, a named list
+  of failed calls, a headline table the README must carry. Every file's battery hash is now
+  checked against the pin, not the first file's. Instrument: `runner.py` changed for the first
+  time since the freeze, with `CALL_MARK` lines instead of bare indices on stdout and the
+  `NoFields` row. Its rows are unchanged: `scipy-1.9.3-t1` and `statsmodels-0.15.0-sm`, rerun with
+  the new runner, match their committed files byte for byte. The parent now trims a call's rows
+  before writing its failure row, and stops if the runner dies before its first call.
+
+## 12. Audit findings rejected
+
+The 2026-11-06 audit's other findings were reproduced and fixed. These were not acted on:
+
+- "The GitHub-body fallback in `notes.py` would count a pull-request list as narrative."
+  Rejected: `notes/statsmodels/0.14.5.md` and `0.14.6.md` are one paragraph of prose each, with
+  no list, so there is nothing to mis-tier, and no function changed in those steps.
+- "Rename p lost or split it" was offered as a choice; the split was taken, because a renamed
+  total would still add losses to gains.
+- "Make the package's `ROOT` and resources real" was the alternative to "checkout only".
+  Rejected: the study is its battery, locks, notes and results, which belong in a repository,
+  not a wheel. The command now says so instead of failing on a missing file.

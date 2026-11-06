@@ -5,8 +5,9 @@ under study importable. Keep it free of statdrift imports and of syntax newer th
 Python 3.9 (the regression fixture runs SciPy 1.6 on 3.9).
 
 Each output row is one (function, variant, input, field) cell. A call that raises writes one
-row with field "*" and the exception type. The parent process (`study.py`) reads call
-indices on stdout, kills a call that hangs and restarts after one that crashes.
+row with field "*" and the exception type. The parent process (`study.py`) reads CALL_MARK
+lines on stdout, kills a call that hangs and restarts after one that crashes. Anything else
+on stdout is a library's own output.
 """
 
 from __future__ import annotations
@@ -24,6 +25,8 @@ import zlib
 
 import numpy as np
 
+CALL_MARK = "statdrift-call "  # study.py reads these lines
+NO_FIELDS = "NoFields"  # the call returned, with none of its fields: a row keeps it in the diff
 MAX_LEAVES = 64
 PATH_TOKEN = re.compile(r"\.?([A-Za-z_]\w*)(\(\))?|\[(\d+)\]")
 
@@ -179,6 +182,8 @@ def execute(call, data, seed):
                     rows.append((field, None, None, exception_name(exc)))
                     continue
                 rows.extend(triple + (None,) for triple in leaves(field, value))
+            if not rows:
+                rows.append(("*", None, None, NO_FIELDS))
     names = sorted({w.category.__name__ for w in caught})
     return rows, names
 
@@ -241,7 +246,8 @@ def main():
             out.flush()
         for index in range(args.start, len(calls)):
             call = calls[index]
-            print(index, flush=True)
+            # The leading newline ends any partial line a library left on stdout.
+            print("\n" + CALL_MARK + str(index), flush=True)
             rows, names = execute(call, inputs[call["input"]], zlib.crc32(call["id"].encode()))
             out.write("".join(row_lines(index, call, rows, names)))
             out.flush()

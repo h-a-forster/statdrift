@@ -25,6 +25,8 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("diff", help="write the summaries from the result files")
     args = parser.parse_args(argv)
 
+    if not (study.ROOT / "configs" / "study.toml").exists():
+        parser.error(f"no study under {study.ROOT}: run statdrift from a repository checkout")
     if args.command == "battery":
         from . import battery
 

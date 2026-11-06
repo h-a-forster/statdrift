@@ -75,8 +75,21 @@ def test_a_raising_call_covers_every_field_of_the_other_side(results):
     tally, changes = compare(results, [failed], fine)
     assert tally["cells"] == 2
     assert tally[diff.STATUS] == 2
-    assert tally["p_lost"] == 1
     assert {c.kind for c in changes} == {"p", "x"}
+
+
+def test_p_lost_is_a_number_going_away_and_p_gained_is_the_reverse(results):
+    failed = make_row(value=None, dtype=None, exception="ValueError")
+    number, nan = make_row(), make_row(value="nan")
+    for before, after, lost, gained in [
+        (number, nan, 1, 0),
+        (number, failed, 1, 0),
+        (failed, number, 0, 1),
+        (nan, number, 0, 1),
+        (failed, nan, 0, 0),
+    ]:
+        tally, _ = compare(results, [before], [after])
+        assert (tally.get("p_lost", 0), tally.get("p_gained", 0)) == (lost, gained)
 
 
 def test_same_exception_is_same_and_a_new_type_is_status(results):

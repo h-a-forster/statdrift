@@ -10,6 +10,7 @@
 
 - 2026-11-06: one toolchain per diffed pair, instead of the oldest numpy per environment.
 - 2026-11-06: Windows x86-64 only; repeatability is run to run, not cross-platform.
+- 2026-11-06: statdrift runs from a checkout only; the wheel carries no study data.
 
 ## Proposed
 

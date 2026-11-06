@@ -19,7 +19,8 @@ change, not correctness.
   (it also lives in `study.py` for the environment locks).
 - The package has no runtime dependencies. numpy (dev) only builds the battery.
 - `src/statdrift/runner.py` runs under the pinned interpreters: no statdrift imports, nothing
-  newer than Python 3.9 syntax.
+  newer than Python 3.9 syntax. `CALL_MARK` must match in `runner.py` and `study.py`; other
+  stdout is a library's own and is ignored.
 - Every diffed pair shares a toolchain. Do not add a release to a chain unless it fits that
   chain's Python and numpy; add a chain instead.
 - The battery is frozen (`battery/battery.sha256`). Changing it voids every results file.
@@ -28,10 +29,11 @@ change, not correctness.
   partial one. A call that hangs or kills the interpreter becomes a row (`Timeout`,
   `Crash:<code>`). The whole study takes about 15 minutes with both runs.
 - Generated, never hand-edited: `results/summary.*`, `results/changes.jsonl`,
-  `results/documented.csv`, `results/repeatability.json`. `results/coding.csv` is
-  hand-written. Tables in `REPORT.md`, once it is added (see `backlog.md`), are copied from
-  `results/summary.md`; a test checks that, and a row written by hand must contain the text
-  `(by hand)`.
+  `results/documented.csv`, `results/repeatability.json`. `results/repeat/` is committed: it
+  is what `repeatability.json` is derived from. `results/coding.csv` is hand-written. The
+  README's headline table and the tables in `REPORT.md`, once it is added (see `backlog.md`),
+  are copied from `results/summary.md`; tests check both, and a `REPORT.md` row written by hand
+  must contain the text `(by hand)`.
 - No network in tests, `diff` or `repeat`. CI runs only on pull requests and manual dispatch
   (metered minutes, private repository). Do not dispatch it casually.
 - Release hygiene: no personal names, local user paths or machine details in committed
@@ -54,7 +56,7 @@ change, not correctness.
 | `src/statdrift/cli.py` | `battery / envs / run / repeat / notes / diff` |
 | `envs/<env>/` | one uv project per environment, committed with its lock (`.venv` ignored) |
 | `notes/` | release notes as fetched, `MANIFEST.json` with hashes |
-| `results/<env>.jsonl` | one file per environment |
+| `results/<env>.jsonl` | one file per environment; `results/repeat/` holds the second run |
 | `tests/fixtures/` | real `mannwhitneyu` rows from SciPy 1.6.3 and 1.7.3, the 1.7.0 notes |
 
 ## How to test and reproduce

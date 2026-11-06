@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RUNNER = Path(__file__).with_name("runner.py")
 EXCLUDE_NEWER = "2026-10-23T00:00:00Z"
 CALL_TIMEOUT = 180.0  # seconds without a finished call before it counts as a hang
+CALL_MARK = "statdrift-call "  # how runner.py announces a call; other stdout is a library's
 THREAD_LIMITS = ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")
 
 
@@ -102,11 +103,8 @@ def child_environ() -> dict[str, str]:
     return environ
 
 
-def resume_point(path: Path) -> int | None:
-    """Trim a partial file to whole calls. Returns the next call index, None when complete."""
-    if not path.exists():
-        return 0
-    lines = path.read_bytes().splitlines(keepends=True)
+def _whole_rows(lines: list[bytes]) -> list[dict]:
+    """The rows before the first torn line."""
     parsed: list[dict] = []
     for line in lines:
         if not line.endswith(b"\n"):
@@ -115,6 +113,24 @@ def resume_point(path: Path) -> int | None:
             parsed.append(json.loads(line))
         except json.JSONDecodeError:
             break
+    return parsed
+
+
+def _trim_before(path: Path, call: int) -> None:
+    """Drop `call`, whatever follows it and any torn tail."""
+    lines = path.read_bytes().splitlines(keepends=True)
+    parsed = _whole_rows(lines)
+    keep = next((i for i, row in enumerate(parsed) if row.get("call", -1) >= call), len(parsed))
+    temporary = path.with_suffix(".trim")
+    temporary.write_bytes(b"".join(lines[:keep]))
+    temporary.replace(path)
+
+
+def resume_point(path: Path) -> int | None:
+    """Trim a partial file to whole calls. Returns the next call index, None when complete."""
+    if not path.exists():
+        return 0
+    parsed = _whole_rows(path.read_bytes().splitlines(keepends=True))
     if parsed and "end" in parsed[-1]:
         return None
     last = max((row["call"] for row in parsed if "call" in row), default=None)
@@ -122,10 +138,7 @@ def resume_point(path: Path) -> int | None:
         path.unlink()
         return 0
     # The last call's rows may be partial, so it reruns.
-    keep = sum(1 for row in parsed if row.get("call", -1) != last)
-    temporary = path.with_suffix(".trim")
-    temporary.write_bytes(b"".join(lines[:keep]))
-    temporary.replace(path)
+    _trim_before(path, last)
     return last
 
 
@@ -139,7 +152,8 @@ def _failed_row(index: int, call: dict, reason: str) -> str:
 
 def _pump(stream, sink: queue.Queue) -> None:
     for line in stream:
-        sink.put(line)
+        if line.startswith(CALL_MARK):
+            sink.put(int(line[len(CALL_MARK) :]))
     sink.put(None)
 
 
@@ -163,12 +177,17 @@ def run_battery(
         command = [str(python), "-I", str(RUNNER), "--battery", str(battery)]
         command += ["--out", str(out), "--lib", lib, "--start", str(start)]
         proc = subprocess.Popen(
-            command, stdout=subprocess.PIPE, text=True, env=child_environ(), cwd=out.parent
+            command,
+            stdout=subprocess.PIPE,
+            encoding="utf-8",
+            errors="replace",
+            env=child_environ(),
+            cwd=out.parent,
         )
         lines: queue.Queue = queue.Queue()
         threading.Thread(target=_pump, args=(proc.stdout, lines), daemon=True).start()
         current = start
-        hung = False
+        started = hung = False
         while True:
             try:
                 line = lines.get(timeout=timeout)
@@ -178,13 +197,18 @@ def run_battery(
                 break
             if line is None:
                 break
-            current = int(line)
+            current = line
+            started = True
         code = proc.wait()
         if code == 0 and not hung:
             return failures
+        if not started:
+            raise RuntimeError(f"{out.name}: the runner stopped before its first call ({code})")
         reason = "Timeout" if hung else f"Crash:{code}"
         failures["timeouts" if hung else "crashes"] += 1
         print(f"{out.name}: call {current} {calls[current]['id']}: {reason}", flush=True)
+        # The call may have written some or all of its rows before it was stopped.
+        _trim_before(out, current)
         with out.open("a", encoding="utf-8", newline="\n") as handle:
             handle.write(_failed_row(current, calls[current], reason))
             start = current + 1

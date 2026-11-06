@@ -26,7 +26,8 @@ CONTROLS = {
 
 
 # Input ids naming degenerate data: what a reader should discount before asking "does this
-# touch my analysis?". Ties, small n and heavy tails are ordinary data and stay out.
+# touch my analysis?". Ties, small n, heavy tails and large location shifts are ordinary data
+# and stay out.
 DEGENERATE = (
     "nan",
     "constant",
@@ -35,7 +36,6 @@ DEGENERATE = (
     "perfect",
     "separated",
     "collinear",
-    "extreme",
     "zero-",
     "wrong-n",
     "impossible",
@@ -133,13 +133,26 @@ def _load_coding(root: Path) -> dict[tuple[str, str], dict]:
         return {(row["step"], row["fn"]): row for row in csv.DictReader(handle)}
 
 
-def _failures(loaded: dict[str, dict]) -> dict[str, int]:
-    out: dict[str, int] = {}
-    for env, calls in loaded.items():
-        rows = (fields.get("*") for fields in calls.values())
-        bad = sum(1 for r in rows if r and r["exception"].startswith(("Timeout", "Crash")))
-        if bad:
-            out[env] = bad
+def _by_upstream(rows: list[dict]) -> list[dict]:
+    """One unit per upstream change behind the material units; a tier holds if any unit has it."""
+    changes: dict[tuple[str, str], dict] = {}
+    for row in rows:
+        if row["is_material"]:
+            merged = changes.setdefault((row["step"], row["upstream"]), {})
+            for tier in (*notes.TIERS, "pointed", "explained"):
+                merged[tier] = merged.get(tier) or row[tier]
+    return list(changes.values())
+
+
+def _failures(loaded: dict[str, dict]) -> list[dict]:
+    out = []
+    for env, calls in sorted(loaded.items()):
+        for (fn, variant, input_), fields in sorted(calls.items()):
+            reason = fields["*"]["exception"] if "*" in fields else ""
+            if reason.startswith(("Timeout", "Crash")):
+                out.append(
+                    {"env": env, "fn": fn, "variant": variant, "input": input_, "outcome": reason}
+                )
     return out
 
 
@@ -164,19 +177,22 @@ def _historical(root: Path) -> dict:
 def analyse(root: Path = study.ROOT) -> dict:
     config = study.load_config(root)
     stability = json.loads((root / "results" / "repeatability.json").read_text(encoding="utf-8"))
+    pin = (root / "battery" / "battery.sha256").read_text(encoding="ascii").strip()
     loaded: dict[str, dict] = {}
     metas: dict[str, dict] = {}
 
     def calls(env: str) -> dict:
         if env not in loaded:
             metas[env], loaded[env] = diff.load(root / "results" / f"{env}.jsonl")
+            if metas[env]["battery_sha256"] != pin:
+                raise ValueError(f"{env}: run against a different battery")
         return loaded[env]
 
     def unstable(*envs: str) -> set[tuple]:
         """A call with any field that did not repeat is not a measurement, in any field."""
         return {tuple(cell[:3]) for env in envs for cell in stability[env]["unstable"]}
 
-    summary: dict = {"pairs": [], "documented": {}, "controls": {}, "inputs": {}}
+    summary: dict = {"pairs": [], "documented": {}, "controls": {}, "inputs": {}, "flips": []}
     all_changes: list[dict] = []
     units: dict[str, list[dict]] = {"scipy": [], "statsmodels": []}
     changed_cells: dict[tuple, set] = {}
@@ -211,7 +227,12 @@ def analyse(root: Path = study.ROOT) -> dict:
             where = summary["inputs"].setdefault(pair["lib"], _new_input_tally())
             for c in grid:
                 if c.label != diff.DTYPE:
-                    row = where["degenerate" if is_degenerate(c.input) else "ordinary"]
+                    kind = "degenerate" if is_degenerate(c.input) else "ordinary"
+                    row = where[kind]
+                    if c.flips:
+                        summary["flips"].append(
+                            {"lib": pair["lib"], "step": step, "inputs": kind} | asdict(c)
+                        )
                     row["changed"] += 1
                     row["numeric"] += c.label == diff.NUMERIC
                     row["material"] += c.material
@@ -226,6 +247,7 @@ def analyse(root: Path = study.ROOT) -> dict:
                 row["is_material"] = unit["material"] > 0
                 row["is_flip"] = unit["flips"] > 0
                 row["coded"] = coding.get((step, fn), {}).get("verdict", "")
+                row["upstream"] = coding.get((step, fn), {}).get("upstream", "")
                 row["explained"] = row["coded"] == "explained"
                 row["pointed"] = row["coded"] in ("explained", "pointer")
                 units[pair["lib"]].append(row)
@@ -239,9 +261,11 @@ def analyse(root: Path = study.ROOT) -> dict:
                     }
 
     for lib, rows in units.items():
-        uncoded = [r["fn"] for r in rows if r["is_material"] and not r["coded"]]
+        uncoded = [r["fn"] for r in rows if r["is_material"] and not (r["coded"] and r["upstream"])]
         if coding and uncoded:
-            raise ValueError(f"material units without a verdict in coding.csv: {uncoded}")
+            raise ValueError(
+                f"material units without a verdict or upstream in coding.csv: {uncoded}"
+            )
         coded_tiers = ("pointed", "explained") if coding else ()
         summary["documented"][lib] = {
             "all": {tier: _documented(rows, tier, None) for tier in notes.TIERS},
@@ -251,6 +275,12 @@ def analyse(root: Path = study.ROOT) -> dict:
                 }
                 for subset in ("is_material", "is_flip")
             },
+            "upstream": {
+                tier: _documented(_by_upstream(rows), tier, None)
+                for tier in (*notes.TIERS, *coded_tiers)
+            }
+            if coding
+            else {},
             "units": rows,
         }
     for where in summary["inputs"].values():
@@ -274,7 +304,7 @@ def analyse(root: Path = study.ROOT) -> dict:
         "unstable_cells": sum(len(r["unstable"]) for r in stability.values()),
     }
     summary["platforms"] = sorted({m["platform"] for m in metas.values()})
-    summary["battery_sha256"] = next(iter(metas.values()))["battery_sha256"]
+    summary["battery_sha256"] = pin
     summary["failures"] = _failures(loaded)
     summary["historical"] = _historical(root)
     return {"summary": summary, "changes": all_changes}
@@ -306,8 +336,8 @@ def _percent(x: float | None, digits: int = 2) -> str:
 def _step_table(pairs: list[dict]) -> list[str]:
     lines = [
         "| Step | Toolchain | Changed cells | of cells | Rate | of which status | Functions "
-        "changed | material | p cells | flip 0.05 | flip 0.01 | p lost |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "changed | material | p cells | flip 0.05 | flip 0.01 | p lost | p gained |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for p in pairs:
         t, s = p["tally"].get("grid", {}), p["stats"]
@@ -317,30 +347,96 @@ def _step_table(pairs: list[dict]) -> list[str]:
             f"{_percent(s['rate'])} | {t.get(diff.STATUS, 0)} | "
             f"{p['functions_changed']}/{p['functions_total']} | {p['functions_material']} | "
             f"{t.get('p_cells', 0)} | {t.get('flip0.05', 0)} | {t.get('flip0.01', 0)} | "
-            f"{t.get('p_lost', 0)} |"
+            f"{t.get('p_lost', 0)} | {t.get('p_gained', 0)} |"
         )
     return lines
+
+
+def _totals(pairs: list[dict], lib: str) -> dict:
+    chosen = [p for p in pairs if p["lib"] == lib]
+    tallies = [p["tally"].get("grid", {}) for p in chosen]
+    totals = {
+        key: sum(t.get(key, 0) for t in tallies)
+        for key in ("p_cells", "p_flipped", "p_lost", "p_gained")
+    }
+    return totals | {
+        "steps": len(chosen),
+        "changed": sum(p["stats"]["changed"] for p in chosen),
+        "cells": sum(p["stats"]["cells"] for p in chosen),
+        "functions_changed": sum(p["functions_changed"] for p in chosen),
+        "functions_total": sum(p["functions_total"] for p in chosen),
+        "functions_material": sum(p["functions_material"] for p in chosen),
+    }
 
 
 def _totals_table(pairs: list[dict]) -> list[str]:
     lines = [
         "| Library | Steps | Changed cells | of cells | Rate | Function-releases changed | "
-        "of | material | p cells | p flipped | p lost |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "of | material | p cells | p flipped | p lost | p gained |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for lib in ("scipy", "statsmodels"):
-        chosen = [p for p in pairs if p["lib"] == lib]
-        tallies = [p["tally"].get("grid", {}) for p in chosen]
-        changed = sum(p["stats"]["changed"] for p in chosen)
-        cells = sum(p["stats"]["cells"] for p in chosen)
+        t = _totals(pairs, lib)
         lines.append(
-            f"| {lib} | {len(chosen)} | {changed} | {cells} | {_percent(changed / cells)} | "
-            f"{sum(p['functions_changed'] for p in chosen)} | "
-            f"{sum(p['functions_total'] for p in chosen)} | "
-            f"{sum(p['functions_material'] for p in chosen)} | "
-            f"{sum(t.get('p_cells', 0) for t in tallies)} | "
-            f"{sum(t.get('p_flipped', 0) for t in tallies)} | "
-            f"{sum(t.get('p_lost', 0) for t in tallies)} |"
+            f"| {lib} | {t['steps']} | {t['changed']} | {t['cells']} | "
+            f"{_percent(t['changed'] / t['cells'])} | {t['functions_changed']} | "
+            f"{t['functions_total']} | {t['functions_material']} | {t['p_cells']} | "
+            f"{t['p_flipped']} | {t['p_lost']} | {t['p_gained']} |"
+        )
+    return lines
+
+
+def _headline_table(summary: dict, pairs: list[dict]) -> list[str]:
+    """The README's table: a test checks that the README carries each of these rows."""
+    a, b = _totals(pairs, "scipy"), _totals(pairs, "statsmodels")
+    docs = summary["documented"]
+
+    def share(tier: str, subset: str = "is_material") -> str:
+        found = [docs[lib][subset].get(tier) for lib in ("scipy", "statsmodels")]
+        return " | ".join(f"{d['hits']} of {d['units']}" if d else "not coded" for d in found)
+
+    def ordinary(lib: str) -> int:
+        return summary["inputs"][lib]["ordinary"]["flips"]
+
+    return [
+        f"| Primary steps, deterministic cells | SciPy ({a['steps']} steps) | "
+        f"statsmodels ({b['steps']} steps) |",
+        "|---|---:|---:|",
+        f"| Cells changed | {a['changed']:,} of {a['cells']:,} "
+        f"({_percent(a['changed'] / a['cells'])}) | {b['changed']:,} of {b['cells']:,} "
+        f"({_percent(b['changed'] / b['cells'])}) |",
+        f"| Function-releases changed | {a['functions_changed']} of {a['functions_total']} | "
+        f"{b['functions_changed']} of {b['functions_total']} |",
+        f"| p-values crossing 0.05 or 0.01 | {a['p_flipped']} of {a['p_cells']:,} | "
+        f"{b['p_flipped']} of {b['p_cells']:,} |",
+        f"| of which on ordinary inputs | {ordinary('scipy')} | {ordinary('statsmodels')} |",
+        f"| p-values lost / gained (a number became NaN or an exception, or the reverse) | "
+        f"{a['p_lost']} / {a['p_gained']} | {b['p_lost']} / {b['p_gained']} |",
+        f"| Material changes naming the function in the notes | {share('any')} |",
+        f"| Material changes the notes actually state (coded by reading) | {share('explained')} |",
+        f"| Distinct upstream changes behind them that the notes state | "
+        f"{share('explained', 'upstream')} |",
+    ]
+
+
+def _failure_table(failures: list[dict]) -> list[str]:
+    if not failures:
+        return ["None."]
+    lines = ["| Environment | Function | Variant | Input | Outcome |", "|---|---|---|---|---|"]
+    for f in failures:
+        lines.append(f"| {f['env']} | {f['fn']} | {f['variant']} | {f['input']} | {f['outcome']} |")
+    return lines
+
+
+def _flip_table(flips: list[dict]) -> list[str]:
+    lines = [
+        "| Step | Function | Variant | Input | Field | Before | After | Inputs |",
+        "|---|---|---|---|---|---:|---:|---|",
+    ]
+    for f in flips:
+        lines.append(
+            f"| {f['lib']} {f['step']} | {f['fn']} | {f['variant']} | {f['input']} | "
+            f"{f['field']} | {f['a']:.4g} | {f['b']:.4g} | {f['inputs']} |"
         )
     return lines
 
@@ -372,6 +468,7 @@ def _documented_table(documented: dict) -> list[str]:
     subsets = (
         ("all", "all (> 1e-9)"),
         ("is_material", "material (> 1e-6 or status)"),
+        ("upstream", "distinct upstream changes behind the material ones"),
         ("is_flip", "flipped a p-value at 0.05 or 0.01"),
     )
     for lib, data in documented.items():
@@ -439,9 +536,20 @@ def render(summary: dict) -> str:
         f"Battery sha256 `{summary['battery_sha256']}`. "
         f"Platforms: {', '.join(summary['platforms'])}.",
         "",
+        "## Headline (grid, deterministic cells)",
+        "",
+        *_headline_table(summary, primary),
+        "",
         "## Totals over the primary steps (grid, deterministic cells)",
         "",
         *_totals_table(primary),
+        "",
+        "p flipped counts cells on different sides of 0.05 or 0.01. The flip columns of the step "
+        "tables count crossings, so a cell that crosses both thresholds is one flipped cell and "
+        "two crossings. p lost: a number became NaN, infinite, masked or an exception. p gained: "
+        "the reverse. A p cell with no number on either side, such as ValueError to NaN, is "
+        "neither. Function-releases count the functions in the grid: "
+        "`bootstrap` and `permutation_test` are in the stochastic group only.",
         "",
         "## Change and decision flips, SciPy (grid, deterministic cells)",
         "",
@@ -450,6 +558,10 @@ def render(summary: dict) -> str:
         "## Change and decision flips, statsmodels (grid, deterministic cells)",
         "",
         *_step_table([p for p in primary if p["lib"] == "statsmodels"]),
+        "",
+        "## Cells that flipped (primary steps)",
+        "",
+        *_flip_table(summary["flips"]),
         "",
         "## Magnitude of p-value changes",
         "",
@@ -462,14 +574,16 @@ def render(summary: dict) -> str:
         "pull-request lists; compatibility = in a backwards-incompatible or deprecation "
         "section; pointed = a reader found a line about the implicated behaviour, whether "
         "or not it said results change; explained = a reader found a line that states this "
-        "change (`results/coding.csv`).",
+        "change (`results/coding.csv`). Function-releases cluster: a helper or a sweep can "
+        "move several functions, so the upstream row counts each change once, as stated if "
+        "any of its units is. Silent means not stated under that function's name.",
         "",
         *_documented_table(documented),
         "",
         "## Where changes fall (grid cells, primary steps)",
         "",
         "Degenerate means the input id names NaN, constant, all-zero, exact-fit, perfect, "
-        "separated, collinear, extreme or similar data (`report.DEGENERATE`). This split "
+        "separated, collinear or similar data (`report.DEGENERATE`). This split "
         "was added after the results were seen.",
         "",
         *_input_table(summary["inputs"]),
@@ -519,7 +633,10 @@ def render(summary: dict) -> str:
         "",
         "## Calls that hung or crashed the interpreter",
         "",
-        str(summary["failures"] or "None."),
+        "`Crash:<code>` is the interpreter's exit code. When a later release returns numbers "
+        "for the same call, that step counts them as status changes.",
+        "",
+        *_failure_table(summary["failures"]),
         "",
     ]
     return "\n".join(out)
@@ -532,7 +649,7 @@ def write(root: Path = study.ROOT) -> dict:
     rows = [u for lib in ("scipy", "statsmodels") for u in summary["documented"][lib]["units"]]
     with (out / "documented.csv").open("w", encoding="utf-8", newline="") as handle:
         fields = ["lib", "step", "fn", "cells", "material", "status", "flips", "max_delta_p"]
-        fields += [*notes.TIERS, "coded"]
+        fields += [*notes.TIERS, "coded", "upstream"]
         writer = csv.DictWriter(handle, fields, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)

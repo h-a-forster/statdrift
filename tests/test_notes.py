@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import socket
+import threading
+
+import pytest
+
 from statdrift import notes
 
 NOTES = """==========================
@@ -59,6 +64,25 @@ def test_mstats_mentions_do_not_count_for_the_main_function_or_back():
 def test_methods_use_the_distribution_name():
     assert notes.short_name("scipy.stats.multinomial.pmf") == "multinomial"
     assert notes.short_name("statsmodels.api.OLS") == "OLS"
+
+
+def test_a_stalled_server_fails_the_fetch_instead_of_hanging_it(monkeypatch):
+    monkeypatch.setattr(notes, "FETCH_TIMEOUT", 0.2)
+    outcome = []
+
+    def attempt(port):
+        try:
+            notes.fetch(f"http://127.0.0.1:{port}/")
+        except OSError as exc:
+            outcome.append(exc)
+
+    with socket.create_server(("127.0.0.1", 0)) as server:  # accepts, never answers
+        worker = threading.Thread(target=attempt, args=(server.getsockname()[1],), daemon=True)
+        worker.start()
+        worker.join(5)
+    if worker.is_alive():
+        pytest.fail("fetch has no timeout")
+    assert outcome
 
 
 def test_a_step_reads_every_patch_of_its_minor():

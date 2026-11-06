@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from statdrift import diff, notes, report
+from statdrift import diff, notes, report, study
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures"
@@ -44,6 +44,29 @@ def test_every_positive_control_is_found():
 def test_every_environment_ran_the_frozen_battery():
     pin = (ROOT / "battery" / "battery.sha256").read_text(encoding="ascii").strip()
     assert summary()["battery_sha256"] == pin
+
+
+def test_the_flip_on_plain_normal_samples_counts_as_ordinary_data():
+    flips = {f["fn"]: f["inputs"] for f in summary()["flips"]}
+    assert flips["scipy.stats.levene"] == "ordinary"
+    assert flips["scipy.stats.cramervonmises_2samp"] == "degenerate"  # NaN in the input
+
+
+def test_the_null_control_can_be_rederived_from_committed_files():
+    recorded = json.loads((ROOT / "results" / "repeatability.json").read_text(encoding="utf-8"))
+    for env, record in recorded.items():
+        assert (
+            study.file_hash(ROOT / "results" / "repeat" / f"{env}.jsonl")
+            == (record["repeat_sha256"])
+        )
+
+
+def test_readme_headline_is_copied_from_the_summary():
+    source = (ROOT / "results" / "summary.md").read_text(encoding="utf-8")
+    section = source.split("## Headline")[1].split("\n## ")[0]
+    readme = (ROOT / "README.md").read_text(encoding="utf-8").splitlines()
+    missing = [line for line in section.splitlines() if line.startswith("|") and line not in readme]
+    assert not missing
 
 
 def test_report_tables_are_copied_from_the_summary():

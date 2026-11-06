@@ -1,44 +1,44 @@
-step,fn,verdict,evidence,change
-1.9.3 -> 1.10.1,scipy.stats.ansari,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change below
-1.9.3 -> 1.10.1,scipy.stats.cramervonmises_2samp,pointer,1.10.0 notes: improved performance; ENH on the exact p-value calculation,p moved at n=12 and n=20; NaN input: p 0.33 became 0.0
-1.9.3 -> 1.10.1,scipy.stats.fligner,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change
-1.9.3 -> 1.10.1,scipy.stats.friedmanchisquare,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change
-1.9.3 -> 1.10.1,scipy.stats.mood,silent,tie-correction and Bunch lines do not concern NaN input,NaN input: number became NaN; consistent with the rankdata NaN change
-1.9.3 -> 1.10.1,scipy.stats.rankdata,explained,1.10.0 PR title: stats.rankdata: change default to nan_policy='propagate',NaN input: ranks became NaN
-1.9.3 -> 1.10.1,scipy.stats.siegelslopes,pointer,1.10.0 notes: improved performance via pythran,NaN input: NaN became a number
-1.10.1 -> 1.11.4,scipy.stats.shapiro,explained,1.11 PR title: stats.shapiro: override p-value when len(x)==3,p at n=3 moved by 1e-6
-1.10.1 -> 1.11.4,scipy.stats.somersd,explained,1.11 notes: bugfix for somersd where an integer overflow could occur,large table: interpreter abort became a result
-1.11.4 -> 1.12.0,scipy.stats.cramervonmises,pointer,1.12.0 PR title: stats.cramervonmises/epps_singleton: add axis / nan_policy,NaN input: p 1.0 became NaN
-1.11.4 -> 1.12.0,scipy.stats.cramervonmises_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: p 0.0 became NaN
-1.11.4 -> 1.12.0,scipy.stats.epps_singleton_2samp,pointer,1.12.0 PR title: stats.cramervonmises/epps_singleton: add axis / nan_policy,NaN input: ValueError became NaN
-1.11.4 -> 1.12.0,scipy.stats.ks_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: number became NaN
-1.11.4 -> 1.12.0,scipy.stats.mstats.ks_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: number became NaN
-1.11.4 -> 1.12.0,scipy.stats.shapiro,silent,PR title on removing Fortran statlib names no function,statistic and p moved on 36 cells; p at n=10000 moved by 0.012 (single to double precision)
-1.12.0 -> 1.13.1,scipy.stats.alexandergovern,explained,1.13.0 notes: gained axis and nan_policy and keepdims support,nan_policy='omit': NaN became a number
-1.12.0 -> 1.13.1,scipy.stats.cramervonmises_2samp,silent,no line,extreme p moved by 2e-6 relative
-1.12.0 -> 1.13.1,scipy.stats.shapiro,pointer,1.13.0 notes: gained axis and nan_policy and keepdims support,NaN input: p 1.0 became NaN
-1.13.1 -> 1.14.1,scipy.stats.epps_singleton_2samp,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN
-1.13.1 -> 1.14.1,scipy.stats.kurtosistest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN
-1.13.1 -> 1.14.1,scipy.stats.mstats.pearsonr,silent,no line,NaN input: ValueError became NaN
-1.13.1 -> 1.14.1,scipy.stats.normaltest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN
-1.13.1 -> 1.14.1,scipy.stats.pearsonr,pointer,1.14.0 notes: pearsonr now accepts n-D arrays,NaN input: ValueError became NaN
-1.13.1 -> 1.14.1,scipy.stats.skewtest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN
-1.14.1 -> 1.15.3,scipy.stats.hmean,explained,1.15.0 PR title: stats.gmean/gstd/hmean/pmean: document/treat invalid,negative input: ValueError became NaN
-1.14.1 -> 1.15.3,scipy.stats.pmean,explained,1.15.0 PR title: stats.gmean/gstd/hmean/pmean: document/treat invalid,negative input: ValueError became NaN
-1.14.1 -> 1.15.3,scipy.stats.wilcoxon,explained,1.15.0 notes: improved method resolution logic for the default method='auto',ties at n=12: p 0.59 became 0.78; all-zero differences: ValueError became p=1
-1.15.3 -> 1.16.3,scipy.stats.mstats.theilslopes,silent,1.16.0 line names stats.theilslopes only,NaN input: number became NaN
-1.15.3 -> 1.16.3,scipy.stats.siegelslopes,pointer,1.16.0 notes: support for axis and nan_policy and keepdims was added,NaN input: number became NaN
-1.15.3 -> 1.16.3,scipy.stats.theilslopes,pointer,1.16.0 notes: support for axis and nan_policy and keepdims was added,NaN input: number became NaN
-1.16.3 -> 1.17.1,scipy.stats.anderson,explained,1.17.0 notes: the critical value tables of anderson have been updated,every critical value moved
-1.16.3 -> 1.17.1,scipy.stats.kruskal,pointer,1.17.0 PR titles: vectorize implementation; add array API support,all-constant groups: ValueError became NaN
-1.16.3 -> 1.17.1,scipy.stats.levene,explained,"1.17.0 issue title: test results are incorrect when center=""trimmed""",center='trimmed': statistic and p moved; one p crossed 0.05
-1.17.1 -> 1.18.1,scipy.stats.linregress,pointer,1.18.0 PR title: vectorize implementation and add array API support,constant x: ValueError became NaN; perfect fit: p and stderr moved
-1.17.1 -> 1.18.1,scipy.stats.mannwhitneyu,silent,lines concern JIT and MArray support and a new attribute,identical constant samples: p 1.0 became NaN
-1.17.1 -> 1.18.1,scipy.stats.mstats.linregress,silent,no line,perfect fit: p 4e-80 became 7e-64; stderr 0 became nonzero
-1.17.1 -> 1.18.1,scipy.stats.mstats.theilslopes,silent,no line,NaN input: NaN became a number
-1.17.1 -> 1.18.1,scipy.stats.shapiro,pointer,1.18.0 PR title: stats.shapiro: implement in Python array API,constant input: p 1.0 became NaN; other p moved by 2e-6 at most
-0.13.5 -> 0.14.0,statsmodels.api.GLM,explained,"0.14.0 PR title: PerfectSeparation, warn by default instead of raise, GLM, discrete",separation: exception became estimates
-0.13.5 -> 0.14.0,statsmodels.api.Logit,explained,"0.14.0 PR title: PerfectSeparation, warn by default instead of raise, GLM, discrete",separation: exception became estimates
-0.13.5 -> 0.14.0,statsmodels.stats.proportion.proportion_confint,pointer,0.14.0 PR title: Update binom_test to binomtest,method='binom_test': TypeError became an interval
-0.13.5 -> 0.14.0,statsmodels.tsa.stattools.adfuller,silent,no line,constant series: NaN became ValueError
-0.14.6 -> 0.15.0,statsmodels.api.Logit,silent,no line,separation: estimates and log-likelihood moved
+step,fn,verdict,evidence,change,upstream
+1.9.3 -> 1.10.1,scipy.stats.ansari,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change below,rankdata-nan-propagate
+1.9.3 -> 1.10.1,scipy.stats.cramervonmises_2samp,pointer,1.10.0 notes: improved performance; ENH on the exact p-value calculation,p moved at n=12 and n=20; NaN input: p 0.33 became 0.0,cramervonmises_2samp-exact-p
+1.9.3 -> 1.10.1,scipy.stats.fligner,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change,rankdata-nan-propagate
+1.9.3 -> 1.10.1,scipy.stats.friedmanchisquare,silent,no line,NaN input: number became NaN; consistent with the rankdata NaN change,rankdata-nan-propagate
+1.9.3 -> 1.10.1,scipy.stats.mood,silent,tie-correction and Bunch lines do not concern NaN input,NaN input: number became NaN; consistent with the rankdata NaN change,rankdata-nan-propagate
+1.9.3 -> 1.10.1,scipy.stats.rankdata,explained,1.10.0 PR title: stats.rankdata: change default to nan_policy='propagate',NaN input: ranks became NaN,rankdata-nan-propagate
+1.9.3 -> 1.10.1,scipy.stats.siegelslopes,pointer,1.10.0 notes: improved performance via pythran,NaN input: NaN became a number,siegelslopes-pythran
+1.10.1 -> 1.11.4,scipy.stats.shapiro,explained,1.11 PR title: stats.shapiro: override p-value when len(x)==3,p at n=3 moved by 1e-6,shapiro-n3
+1.10.1 -> 1.11.4,scipy.stats.somersd,explained,1.11 notes: bugfix for somersd where an integer overflow could occur,large table: interpreter abort became a result,somersd-overflow
+1.11.4 -> 1.12.0,scipy.stats.cramervonmises,pointer,1.12.0 PR title: stats.cramervonmises/epps_singleton: add axis / nan_policy,NaN input: p 1.0 became NaN,nan-support-sweep
+1.11.4 -> 1.12.0,scipy.stats.cramervonmises_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: p 0.0 became NaN,nan-support-sweep
+1.11.4 -> 1.12.0,scipy.stats.epps_singleton_2samp,pointer,1.12.0 PR title: stats.cramervonmises/epps_singleton: add axis / nan_policy,NaN input: ValueError became NaN,nan-support-sweep
+1.11.4 -> 1.12.0,scipy.stats.ks_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: number became NaN,nan-support-sweep
+1.11.4 -> 1.12.0,scipy.stats.mstats.ks_2samp,pointer,1.12.0 highlight: improved support for handling NaN values across scipy.stats,NaN input: number became NaN,nan-support-sweep
+1.11.4 -> 1.12.0,scipy.stats.shapiro,silent,PR title on removing Fortran statlib names no function,statistic and p moved on 36 cells; p at n=10000 moved by 0.012 (single to double precision),shapiro-statlib-port
+1.12.0 -> 1.13.1,scipy.stats.alexandergovern,explained,1.13.0 notes: gained axis and nan_policy and keepdims support,nan_policy='omit': NaN became a number,axis-nan-policy-line
+1.12.0 -> 1.13.1,scipy.stats.cramervonmises_2samp,silent,no line,extreme p moved by 2e-6 relative,cramervonmises_2samp-extreme-p
+1.12.0 -> 1.13.1,scipy.stats.shapiro,pointer,1.13.0 notes: gained axis and nan_policy and keepdims support,NaN input: p 1.0 became NaN,axis-nan-policy-line
+1.13.1 -> 1.14.1,scipy.stats.epps_singleton_2samp,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN,too-small-samples
+1.13.1 -> 1.14.1,scipy.stats.kurtosistest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN,too-small-samples
+1.13.1 -> 1.14.1,scipy.stats.mstats.pearsonr,silent,no line,NaN input: ValueError became NaN,pearsonr-nd
+1.13.1 -> 1.14.1,scipy.stats.normaltest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN,too-small-samples
+1.13.1 -> 1.14.1,scipy.stats.pearsonr,pointer,1.14.0 notes: pearsonr now accepts n-D arrays,NaN input: ValueError became NaN,pearsonr-nd
+1.13.1 -> 1.14.1,scipy.stats.skewtest,explained,1.14.0 backwards-incompatible: too-small samples; previously may have raised; result is NaN,small samples: ValueError became NaN,too-small-samples
+1.14.1 -> 1.15.3,scipy.stats.hmean,explained,1.15.0 PR title: stats.gmean/gstd/hmean/pmean: document/treat invalid,negative input: ValueError became NaN,means-invalid-input
+1.14.1 -> 1.15.3,scipy.stats.pmean,explained,1.15.0 PR title: stats.gmean/gstd/hmean/pmean: document/treat invalid,negative input: ValueError became NaN,means-invalid-input
+1.14.1 -> 1.15.3,scipy.stats.wilcoxon,explained,1.15.0 notes: improved method resolution logic for the default method='auto',ties at n=12: p 0.59 became 0.78; all-zero differences: ValueError became p=1,wilcoxon-method-auto
+1.15.3 -> 1.16.3,scipy.stats.mstats.theilslopes,silent,1.16.0 line names stats.theilslopes only,NaN input: number became NaN,mstats-theilslopes-nan
+1.15.3 -> 1.16.3,scipy.stats.siegelslopes,pointer,1.16.0 notes: support for axis and nan_policy and keepdims was added,NaN input: number became NaN,axis-nan-policy-line
+1.15.3 -> 1.16.3,scipy.stats.theilslopes,pointer,1.16.0 notes: support for axis and nan_policy and keepdims was added,NaN input: number became NaN,axis-nan-policy-line
+1.16.3 -> 1.17.1,scipy.stats.anderson,explained,1.17.0 notes: the critical value tables of anderson have been updated,every critical value moved,anderson-critical-values
+1.16.3 -> 1.17.1,scipy.stats.kruskal,pointer,1.17.0 PR titles: vectorize implementation; add array API support,all-constant groups: ValueError became NaN,kruskal-vectorized
+1.16.3 -> 1.17.1,scipy.stats.levene,explained,"1.17.0 issue title: test results are incorrect when center=""trimmed""",center='trimmed': statistic and p moved; one p crossed 0.05,levene-trimmed-fix
+1.17.1 -> 1.18.1,scipy.stats.linregress,pointer,1.18.0 PR title: vectorize implementation and add array API support,constant x: ValueError became NaN; perfect fit: p and stderr moved,linregress-vectorized
+1.17.1 -> 1.18.1,scipy.stats.mannwhitneyu,silent,lines concern JIT and MArray support and a new attribute,identical constant samples: p 1.0 became NaN,mannwhitneyu-constant
+1.17.1 -> 1.18.1,scipy.stats.mstats.linregress,silent,no line,perfect fit: p 4e-80 became 7e-64; stderr 0 became nonzero,linregress-vectorized
+1.17.1 -> 1.18.1,scipy.stats.mstats.theilslopes,silent,no line,NaN input: NaN became a number,mstats-theilslopes-nan
+1.17.1 -> 1.18.1,scipy.stats.shapiro,pointer,1.18.0 PR title: stats.shapiro: implement in Python array API,constant input: p 1.0 became NaN; other p moved by 2e-6 at most,shapiro-array-api
+0.13.5 -> 0.14.0,statsmodels.api.GLM,explained,"0.14.0 PR title: PerfectSeparation, warn by default instead of raise, GLM, discrete",separation: exception became estimates,perfect-separation-warns
+0.13.5 -> 0.14.0,statsmodels.api.Logit,explained,"0.14.0 PR title: PerfectSeparation, warn by default instead of raise, GLM, discrete",separation: exception became estimates,perfect-separation-warns
+0.13.5 -> 0.14.0,statsmodels.stats.proportion.proportion_confint,pointer,0.14.0 PR title: Update binom_test to binomtest,method='binom_test': TypeError became an interval,binom_test-to-binomtest
+0.13.5 -> 0.14.0,statsmodels.tsa.stattools.adfuller,silent,no line,constant series: NaN became ValueError,adfuller-constant
+0.14.6 -> 0.15.0,statsmodels.api.Logit,silent,no line,separation: estimates and log-likelihood moved,logit-separation-estimates
