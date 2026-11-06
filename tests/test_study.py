@@ -77,6 +77,9 @@ def test_a_call_stopped_at_the_deadline_leaves_exactly_one_failed_row(tmp_path, 
     out = tmp_path / "results" / "x.jsonl"
     failures = study.run_battery(Path(sys.executable), "scipy", out, tmp_path, timeout=2.0)
     assert failures == {"timeouts": 3, "crashes": 0}
+    # A runner left alive holds the file open, and Windows then refuses to move it.
+    out.rename(out.with_name("moved.jsonl"))
+    out.with_name("moved.jsonl").rename(out)
     _, calls = diff.load(out)
     for name in ("finished-late", "torn", "chatty-hang"):
         assert set(calls[("f", "v", name)]) == {"*"}

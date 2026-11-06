@@ -150,6 +150,16 @@ def _failed_row(index: int, call: dict, reason: str) -> str:
     return json.dumps(row, sort_keys=True) + "\n"
 
 
+def _kill_tree(proc: subprocess.Popen) -> None:
+    """Stop the runner and anything it started. A Windows venv python.exe is a launcher that
+    starts the real interpreter, so killing only it leaves the runner alive with the file open."""
+    if sys.platform == "win32":
+        subprocess.run(
+            ["taskkill", "/F", "/T", "/PID", str(proc.pid)], capture_output=True, check=False
+        )
+    proc.kill()
+
+
 def _pump(stream, sink: queue.Queue) -> None:
     for line in stream:
         if line.startswith(CALL_MARK):
@@ -192,7 +202,11 @@ def run_battery(
             try:
                 line = lines.get(timeout=timeout)
             except queue.Empty:
-                proc.kill()
+                _kill_tree(proc)
+                # The pipe closes once every process holding it has exited, and with them
+                # the file handles; replacing the results file before then fails on Windows.
+                while lines.get() is not None:
+                    pass
                 hung = True
                 break
             if line is None:

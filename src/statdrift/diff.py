@@ -9,6 +9,7 @@ import json
 import math
 from collections import defaultdict
 from dataclasses import dataclass
+from fractions import Fraction
 from pathlib import Path
 
 TOL = 1e-9  # relative change that counts as a change
@@ -254,19 +255,15 @@ def function_units(changes: list[Change], group: str = "grid") -> dict[str, dict
     return out
 
 
-def _tail_low(k: int, n: int, p: float) -> float:
-    """P(X <= k) for X ~ Binomial(n, p)."""
-    total = 0.0
-    for i in range(k + 1):
-        log_term = math.lgamma(n + 1) - math.lgamma(i + 1) - math.lgamma(n - i + 1)
-        total += math.exp(log_term + i * math.log(p) + (n - i) * math.log1p(-p))
-    return min(total, 1.0)
+def _tail_low(k: int, n: int, p: Fraction) -> Fraction:
+    """P(X <= k) for X ~ Binomial(n, p), exactly."""
+    return sum(math.comb(n, i) * p**i * (1 - p) ** (n - i) for i in range(k + 1))
 
 
-def _bisect(condition) -> float:
+def _bisect(condition) -> Fraction:
     """The point in (0, 1) where `condition` turns from true to false."""
-    low, high = 0.0, 1.0
-    for _ in range(200):
+    low, high = Fraction(0), Fraction(1)
+    for _ in range(80):
         middle = (low + high) / 2
         if condition(middle):
             low = middle
@@ -279,7 +276,8 @@ def clopper_pearson(k: int, n: int, level: float = 0.95) -> tuple[float, float]:
     """Exact two-sided binomial interval, by bisection on the binomial tails."""
     if not 0 <= k <= n or n == 0:
         raise ValueError(f"need 0 <= k <= n and n > 0, got k={k}, n={n}")
-    alpha = (1 - level) / 2
-    low = 0.0 if k == 0 else _bisect(lambda p: 1 - _tail_low(k - 1, n, p) < alpha)
-    high = 1.0 if k == n else _bisect(lambda p: _tail_low(k, n, p) > alpha)
+    # Exact rational arithmetic: libm's lgamma/exp/log differ in the last bit across platforms.
+    alpha = (1 - Fraction(str(level))) / 2
+    low = 0.0 if k == 0 else float(_bisect(lambda p: 1 - _tail_low(k - 1, n, p) < alpha))
+    high = 1.0 if k == n else float(_bisect(lambda p: _tail_low(k, n, p) > alpha))
     return low, high
