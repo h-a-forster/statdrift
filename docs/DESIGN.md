@@ -142,13 +142,17 @@ author lists excluded):
 
 A name match neither proves a warning nor rules one out: notes can name a function for an
 unrelated reason, and a change in a shared helper (`scipy.special`, the axis/NaN decorator)
-can be documented under the helper's name. So a fourth tier is coded by reading:
+can be documented under the helper's name. So material changes are also coded by reading
+every line naming the function, plus blanket statements, against the observed cells:
 
-- explained: for material changes, a reader looks at every note line naming the function and
-  at the observed cells, and records whether a line describes this change.
-  `results/coding.csv` holds the verdict and the line for each unit, so every call can be
-  checked and overturned. This coding happens after the results are known and has one
-  coder; it is a judgement, not a measurement.
+- explained: a line states this change.
+- pointed: explained, or a line about the implicated behaviour that does not say results
+  change (for example "gained `nan_policy` support").
+- silent: neither.
+
+`results/coding.csv` holds the verdict and the evidence for each unit, so every call can be
+checked and overturned. This coding happens after the results are known and has one coder;
+it is a judgement, not a measurement.
 
 Interval: Clopper-Pearson with changed function-releases as units. They are neither a
 random sample nor independent, so the interval describes noise in a share over these units,
@@ -160,8 +164,8 @@ not a population of functions.
   the differing cells are listed in `results/repeatability.json` and excluded.
 - Positive controls: group `control` runs five inputs taken from the SciPy 1.18.0 notes
   (rankdata dtype, binomtest attribute dtype, multinomial with unnormalised p, spearmanr
-  constant detection, pmean with tiny p). The study must find each in 1.17.1 to 1.18.1. A
-  miss means a blind spot and fails `tests/test_controls.py`.
+  constant detection, pmean with tiny p). `report.CONTROLS` states what must be seen in
+  1.17.1 to 1.18.1. A miss means a blind spot and fails `tests/test_controls.py`.
 - Historical regression: `tests/fixtures/` holds real `mannwhitneyu` rows from SciPy 1.6.3
   and 1.7.3 (Python 3.9). The differ must report the change and the flips, and the 1.7.0
   notes must name the function.
@@ -194,4 +198,19 @@ No release-to-release measurement of drift in statistical software was found.
 
 ## 11. Changes after the freeze
 
-None so far.
+The battery, the runner and the environments are unchanged since the freeze commit
+(`601d189`). Everything below happened after results were visible, unless stated.
+
+- First full run discarded before any diff. Two drivers ran at once and interleaved rows in
+  the same files. `statdrift run` now takes a lock; only the clean rerun is committed.
+- Differ, blind spot found by the spearmanr control: a scalar output that becomes an array was
+  filed as a new field, outside the rate. A change of shape is now a status change. It moved
+  no primary number: only the control cells had this shape change.
+- Instability is now applied per call, not per cell. `siegelslopes` left one garbage field
+  that matched by chance in two runs.
+- The binomtest control expected a dtype change. SciPy 1.18.1 reverted it (scipy#25509), so at
+  the last patch the control expects no change.
+- Tier "pointed" and verdict "silent" were added to the coding when reading showed that
+  "explained" alone hid lines that hint at a change without stating it.
+- The split into ordinary and degenerate inputs (`report.DEGENERATE`) is post hoc and
+  descriptive.

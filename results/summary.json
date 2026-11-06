@@ -1,0 +1,2664 @@
+{
+ "battery_sha256": "a1fb32b0a4ea4a52f27d571788433b5acca13322038c692b76bc9d9599f75ba1",
+ "controls": {
+  "scipy.stats.binomtest/attributes": {
+   "expected": null,
+   "found": true,
+   "seen": null
+  },
+  "scipy.stats.multinomial.pmf/unnormalised": {
+   "expected": "status",
+   "found": true,
+   "seen": "status"
+  },
+  "scipy.stats.pmean/tiny-p": {
+   "expected": "numeric",
+   "found": true,
+   "seen": "numeric"
+  },
+  "scipy.stats.rankdata/dense": {
+   "expected": "dtype",
+   "found": true,
+   "seen": "dtype"
+  },
+  "scipy.stats.rankdata/max": {
+   "expected": "dtype",
+   "found": true,
+   "seen": "dtype"
+  },
+  "scipy.stats.rankdata/min": {
+   "expected": "dtype",
+   "found": true,
+   "seen": "dtype"
+  },
+  "scipy.stats.rankdata/ordinal": {
+   "expected": "dtype",
+   "found": true,
+   "seen": "dtype"
+  },
+  "scipy.stats.spearmanr/matrix": {
+   "expected": "status",
+   "found": true,
+   "seen": "status"
+  }
+ },
+ "documented": {
+  "scipy": {
+   "all": {
+    "any": {
+     "ci95": [
+      0.46936254803282296,
+      0.7787721379389343
+     ],
+     "hits": 26,
+     "share": 0.6341463414634146,
+     "units": 41
+    },
+    "compatibility": {
+     "ci95": [
+      0.005963118241043022,
+      0.16533335341783
+     ],
+     "hits": 2,
+     "share": 0.04878048780487805,
+     "units": 41
+    },
+    "narrative": {
+     "ci95": [
+      0.3513423938174043,
+      0.6712209642287261
+     ],
+     "hits": 21,
+     "share": 0.5121951219512195,
+     "units": 41
+    }
+   },
+   "is_flip": {
+    "any": {
+     "ci95": [
+      0.15811388300841855,
+      1.0
+     ],
+     "hits": 2,
+     "share": 1.0,
+     "units": 2
+    },
+    "compatibility": {
+     "ci95": [
+      0.0,
+      0.841886116991581
+     ],
+     "hits": 0,
+     "share": 0.0,
+     "units": 2
+    },
+    "explained": {
+     "ci95": [
+      0.012579117093425032,
+      0.9874208829065749
+     ],
+     "hits": 1,
+     "share": 0.5,
+     "units": 2
+    },
+    "narrative": {
+     "ci95": [
+      0.15811388300841855,
+      1.0
+     ],
+     "hits": 2,
+     "share": 1.0,
+     "units": 2
+    },
+    "pointed": {
+     "ci95": [
+      0.15811388300841855,
+      1.0
+     ],
+     "hits": 2,
+     "share": 1.0,
+     "units": 2
+    }
+   },
+   "is_material": {
+    "any": {
+     "ci95": [
+      0.4864732448393333,
+      0.8036709070509502
+     ],
+     "hits": 25,
+     "share": 0.6578947368421053,
+     "units": 38
+    },
+    "compatibility": {
+     "ci95": [
+      0.006438716715091813,
+      0.17749059034764064
+     ],
+     "hits": 2,
+     "share": 0.05263157894736842,
+     "units": 38
+    },
+    "explained": {
+     "ci95": [
+      0.19632909294904705,
+      0.5135267551606639
+     ],
+     "hits": 13,
+     "share": 0.34210526315789475,
+     "units": 38
+    },
+    "narrative": {
+     "ci95": [
+      0.3829907511642858,
+      0.7137585009994036
+     ],
+     "hits": 21,
+     "share": 0.5526315789473685,
+     "units": 38
+    },
+    "pointed": {
+     "ci95": [
+      0.5409679330757038,
+      0.84575371321209
+     ],
+     "hits": 27,
+     "share": 0.7105263157894737,
+     "units": 38
+    }
+   },
+   "units": [
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.ansari",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 3,
+     "cells": 4,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 1,
+     "fn": "scipy.stats.cramervonmises_2samp",
+     "is_flip": true,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 4,
+     "max_delta_p": 0.3254707628486574,
+     "narrative": 1,
+     "pointed": true,
+     "status": 1,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.fligner",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.friedmanchisquare",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 3,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mood",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 2,
+     "pointed": false,
+     "status": 2,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 5,
+     "cells": 100,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.rankdata",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 100,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 100,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 2,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.siegelslopes",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 2,
+     "step": "1.9.3 -> 1.10.1"
+    },
+    {
+     "any": 2,
+     "cells": 1,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.shapiro",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 1,
+     "max_delta_p": 9.82448794539792e-07,
+     "narrative": 0,
+     "pointed": true,
+     "status": 0,
+     "step": "1.10.1 -> 1.11.4"
+    },
+    {
+     "any": 2,
+     "cells": 2,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.somersd",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 2,
+     "step": "1.10.1 -> 1.11.4"
+    },
+    {
+     "any": 1,
+     "cells": 1,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.cramervonmises",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 1,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 1,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 0,
+     "cells": 1,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.cramervonmises_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 1,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 1,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.epps_singleton_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 2,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 1,
+     "cells": 8,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.ks_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 8,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 8,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mstats.ks_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 2,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 0,
+     "cells": 36,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.shapiro",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 11,
+     "max_delta_p": 0.01237685773032271,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.11.4 -> 1.12.0"
+    },
+    {
+     "any": 2,
+     "cells": 2,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.alexandergovern",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 2,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 0,
+     "cells": 1,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.cramervonmises_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 1,
+     "max_delta_p": 1.1102230246251565e-16,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 2,
+     "cells": 1,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.shapiro",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 1,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 1,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 1,
+     "cells": 1,
+     "coded": "",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.ttest_1samp",
+     "is_flip": false,
+     "is_material": false,
+     "lib": "scipy",
+     "material": 0,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 0,
+     "cells": 19,
+     "coded": "",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.ttest_ind",
+     "is_flip": false,
+     "is_material": false,
+     "lib": "scipy",
+     "material": 0,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 0,
+     "cells": 5,
+     "coded": "",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.ttest_rel",
+     "is_flip": false,
+     "is_material": false,
+     "lib": "scipy",
+     "material": 0,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.12.0 -> 1.13.1"
+    },
+    {
+     "any": 0,
+     "cells": 8,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.epps_singleton_2samp",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 8,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 8,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 2,
+     "cells": 4,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.kurtosistest",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 4,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 4,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mstats.pearsonr",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 2,
+     "cells": 10,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.normaltest",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 10,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 10,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 6,
+     "cells": 4,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.pearsonr",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 4,
+     "max_delta_p": 0.0,
+     "narrative": 2,
+     "pointed": true,
+     "status": 4,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 2,
+     "cells": 10,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.skewtest",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 10,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 10,
+     "step": "1.13.1 -> 1.14.1"
+    },
+    {
+     "any": 4,
+     "cells": 17,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.hmean",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 17,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 17,
+     "step": "1.14.1 -> 1.15.3"
+    },
+    {
+     "any": 4,
+     "cells": 17,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.pmean",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 17,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 17,
+     "step": "1.14.1 -> 1.15.3"
+    },
+    {
+     "any": 4,
+     "cells": 9,
+     "coded": "explained",
+     "compatibility": 1,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.wilcoxon",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 9,
+     "max_delta_p": 0.1925618660481101,
+     "narrative": 2,
+     "pointed": true,
+     "status": 8,
+     "step": "1.14.1 -> 1.15.3"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mstats.theilslopes",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.15.3 -> 1.16.3"
+    },
+    {
+     "any": 1,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.siegelslopes",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 2,
+     "step": "1.15.3 -> 1.16.3"
+    },
+    {
+     "any": 1,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.theilslopes",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 1,
+     "pointed": true,
+     "status": 2,
+     "step": "1.15.3 -> 1.16.3"
+    },
+    {
+     "any": 5,
+     "cells": 100,
+     "coded": "explained",
+     "compatibility": 1,
+     "explained": true,
+     "flips": 0,
+     "fn": "scipy.stats.anderson",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 100,
+     "max_delta_p": 0.0,
+     "narrative": 3,
+     "pointed": true,
+     "status": 0,
+     "step": "1.16.3 -> 1.17.1"
+    },
+    {
+     "any": 4,
+     "cells": 2,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.kruskal",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 2,
+     "pointed": true,
+     "status": 2,
+     "step": "1.16.3 -> 1.17.1"
+    },
+    {
+     "any": 6,
+     "cells": 6,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 1,
+     "fn": "scipy.stats.levene",
+     "is_flip": true,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 6,
+     "max_delta_p": 0.16101432350035128,
+     "narrative": 2,
+     "pointed": true,
+     "status": 0,
+     "step": "1.16.3 -> 1.17.1"
+    },
+    {
+     "any": 3,
+     "cells": 9,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.linregress",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 9,
+     "max_delta_p": 6.649292542787769e-64,
+     "narrative": 2,
+     "pointed": true,
+     "status": 6,
+     "step": "1.17.1 -> 1.18.1"
+    },
+    {
+     "any": 6,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mannwhitneyu",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 3,
+     "pointed": false,
+     "status": 2,
+     "step": "1.17.1 -> 1.18.1"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mstats.linregress",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 6.649292542787769e-64,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "1.17.1 -> 1.18.1"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.mstats.theilslopes",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "1.17.1 -> 1.18.1"
+    },
+    {
+     "any": 2,
+     "cells": 14,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "scipy.stats.shapiro",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "scipy",
+     "material": 3,
+     "max_delta_p": 1.4552071080364826e-06,
+     "narrative": 1,
+     "pointed": true,
+     "status": 2,
+     "step": "1.17.1 -> 1.18.1"
+    }
+   ]
+  },
+  "statsmodels": {
+   "all": {
+    "any": {
+     "ci95": [
+      0.005050763379468049,
+      0.7164179361180896
+     ],
+     "hits": 1,
+     "share": 0.2,
+     "units": 5
+    },
+    "compatibility": {
+     "ci95": [
+      0.0,
+      0.5218237501049814
+     ],
+     "hits": 0,
+     "share": 0.0,
+     "units": 5
+    },
+    "narrative": {
+     "ci95": [
+      0.005050763379468049,
+      0.7164179361180896
+     ],
+     "hits": 1,
+     "share": 0.2,
+     "units": 5
+    }
+   },
+   "is_flip": {
+    "any": {
+     "ci95": [
+      null,
+      null
+     ],
+     "hits": 0,
+     "share": null,
+     "units": 0
+    },
+    "compatibility": {
+     "ci95": [
+      null,
+      null
+     ],
+     "hits": 0,
+     "share": null,
+     "units": 0
+    },
+    "explained": {
+     "ci95": [
+      null,
+      null
+     ],
+     "hits": 0,
+     "share": null,
+     "units": 0
+    },
+    "narrative": {
+     "ci95": [
+      null,
+      null
+     ],
+     "hits": 0,
+     "share": null,
+     "units": 0
+    },
+    "pointed": {
+     "ci95": [
+      null,
+      null
+     ],
+     "hits": 0,
+     "share": null,
+     "units": 0
+    }
+   },
+   "is_material": {
+    "any": {
+     "ci95": [
+      0.005050763379468049,
+      0.7164179361180896
+     ],
+     "hits": 1,
+     "share": 0.2,
+     "units": 5
+    },
+    "compatibility": {
+     "ci95": [
+      0.0,
+      0.5218237501049814
+     ],
+     "hits": 0,
+     "share": 0.0,
+     "units": 5
+    },
+    "explained": {
+     "ci95": [
+      0.052744950526317266,
+      0.8533672003653268
+     ],
+     "hits": 2,
+     "share": 0.4,
+     "units": 5
+    },
+    "narrative": {
+     "ci95": [
+      0.005050763379468049,
+      0.7164179361180896
+     ],
+     "hits": 1,
+     "share": 0.2,
+     "units": 5
+    },
+    "pointed": {
+     "ci95": [
+      0.14663279963467418,
+      0.9472550494736831
+     ],
+     "hits": 3,
+     "share": 0.6,
+     "units": 5
+    }
+   },
+   "units": [
+    {
+     "any": 15,
+     "cells": 12,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "statsmodels.api.GLM",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "statsmodels",
+     "material": 12,
+     "max_delta_p": 0.0,
+     "narrative": 11,
+     "pointed": true,
+     "status": 12,
+     "step": "0.13.5 -> 0.14.0"
+    },
+    {
+     "any": 0,
+     "cells": 10,
+     "coded": "explained",
+     "compatibility": 0,
+     "explained": true,
+     "flips": 0,
+     "fn": "statsmodels.api.Logit",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "statsmodels",
+     "material": 10,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 10,
+     "step": "0.13.5 -> 0.14.0"
+    },
+    {
+     "any": 0,
+     "cells": 8,
+     "coded": "pointer",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "statsmodels.stats.proportion.proportion_confint",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "statsmodels",
+     "material": 8,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": true,
+     "status": 8,
+     "step": "0.13.5 -> 0.14.0"
+    },
+    {
+     "any": 0,
+     "cells": 2,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "statsmodels.tsa.stattools.adfuller",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "statsmodels",
+     "material": 2,
+     "max_delta_p": 0.0,
+     "narrative": 0,
+     "pointed": false,
+     "status": 2,
+     "step": "0.13.5 -> 0.14.0"
+    },
+    {
+     "any": 0,
+     "cells": 10,
+     "coded": "silent",
+     "compatibility": 0,
+     "explained": false,
+     "flips": 0,
+     "fn": "statsmodels.api.Logit",
+     "is_flip": false,
+     "is_material": true,
+     "lib": "statsmodels",
+     "material": 10,
+     "max_delta_p": 0.000651810405557951,
+     "narrative": 0,
+     "pointed": false,
+     "status": 0,
+     "step": "0.14.6 -> 0.15.0"
+    }
+   ]
+  }
+ },
+ "failures": {
+  "scipy-1.10.1-t1": 1,
+  "scipy-1.9.3-t1": 1
+ },
+ "historical": {
+  "cells": 150,
+  "changed": 93,
+  "default_p_changed": 25,
+  "default_p_flipped": 2,
+  "p_cells": 75,
+  "p_flipped": 4
+ },
+ "inputs": {
+  "scipy": {
+   "degenerate": {
+    "changed": 191,
+    "flips": 2,
+    "functions": 32,
+    "material": 189,
+    "numeric": 27
+   },
+   "ordinary": {
+    "changed": 229,
+    "flips": 0,
+    "functions": 17,
+    "material": 170,
+    "numeric": 163
+   }
+  },
+  "statsmodels": {
+   "degenerate": {
+    "changed": 34,
+    "flips": 0,
+    "functions": 4,
+    "material": 34,
+    "numeric": 10
+   },
+   "ordinary": {
+    "changed": 8,
+    "flips": 0,
+    "functions": 1,
+    "material": 8,
+    "numeric": 0
+   }
+  }
+ },
+ "overlap": [
+  {
+   "both": 38,
+   "step": "1.13.1 -> 1.14.1",
+   "t1": 38,
+   "t2": 38
+  },
+  {
+   "both": 43,
+   "step": "1.14.1 -> 1.15.3",
+   "t1": 43,
+   "t2": 43
+  },
+  {
+   "both": 6,
+   "step": "1.15.3 -> 1.16.3",
+   "t1": 6,
+   "t2": 6
+  }
+ ],
+ "pairs": [
+  {
+   "a": "1.9.3",
+   "b": "1.10.1",
+   "env_a": "scipy-1.9.3-t1",
+   "env_b": "scipy-1.10.1-t1",
+   "functions_changed": 7,
+   "functions_material": 7,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 0,
+     "<1e-12": 0,
+     ">=1e-3": 3
+    },
+    "max": 0.3254707628486574,
+    "median": 0.013809992484793088,
+    "n": 3,
+    "p90": 0.3254707628486574
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 5396,
+    "changed": 114,
+    "rate": 0.02112676056338028
+   },
+   "stochastic": {
+    "cells": 267,
+    "changed": 11,
+    "rate": 0.04119850187265917
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "api_added": 46,
+     "bitwise_same": 5226,
+     "cells": 5396,
+     "dtype": 47,
+     "field_added": 204,
+     "flip0.01": 1,
+     "flip0.05": 1,
+     "not_applicable": 48,
+     "numeric": 3,
+     "p_cells": 1571,
+     "p_flipped": 1,
+     "p_lost": 4,
+     "rel>0.001": 3,
+     "rel>1e-06": 3,
+     "rel>1e-09": 3,
+     "rel>1e-12": 4,
+     "same": 3537,
+     "status": 111,
+     "unstable": 2,
+     "warning": 1698
+    },
+    "stochastic": {
+     "bitwise_same": 255,
+     "cells": 267,
+     "numeric": 11,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "rel>0.001": 11,
+     "rel>1e-06": 11,
+     "rel>1e-09": 11,
+     "rel>1e-12": 11,
+     "same": 256
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.10.1",
+   "b": "1.11.4",
+   "env_a": "scipy-1.10.1-t1",
+   "env_b": "scipy-1.11.4-t1",
+   "functions_changed": 2,
+   "functions_material": 2,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 1,
+     "1e-6..1e-3": 0,
+     "<1e-12": 0,
+     ">=1e-3": 0
+    },
+    "max": 9.82448794539792e-07,
+    "median": 9.82448794539792e-07,
+    "n": 1,
+    "p90": 9.82448794539792e-07
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 5647,
+    "changed": 3,
+    "rate": 0.0005312555339118116
+   },
+   "stochastic": {
+    "cells": 267,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5642,
+     "cells": 5647,
+     "dtype": 111,
+     "field_added": 306,
+     "not_applicable": 48,
+     "numeric": 1,
+     "p_cells": 1574,
+     "p_flipped": 0,
+     "p_lost": 1,
+     "rel>1e-06": 1,
+     "rel>1e-09": 1,
+     "rel>1e-12": 1,
+     "same": 5533,
+     "status": 2,
+     "unstable": 2
+    },
+    "stochastic": {
+     "bitwise_same": 267,
+     "cells": 267,
+     "field_added": 72,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 267
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.11.4",
+   "b": "1.12.0",
+   "env_a": "scipy-1.11.4-t1",
+   "env_b": "scipy-1.12.0-t1",
+   "functions_changed": 6,
+   "functions_material": 6,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 13,
+     "1e-6..1e-3": 4,
+     "<1e-12": 0,
+     ">=1e-3": 1
+    },
+    "max": 0.01237685773032271,
+    "median": 3.1960389801355404e-07,
+    "n": 18,
+    "p90": 5.529238882479026e-05
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 5954,
+    "changed": 50,
+    "rate": 0.008397715821296607
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "api_added": 50,
+     "bitwise_same": 5904,
+     "cells": 5954,
+     "dtype": 94,
+     "not_applicable": 18,
+     "numeric": 36,
+     "p_cells": 1575,
+     "p_flipped": 0,
+     "p_lost": 8,
+     "rel>0.001": 1,
+     "rel>1e-06": 11,
+     "rel>1e-09": 36,
+     "rel>1e-12": 36,
+     "same": 5808,
+     "status": 14,
+     "unstable": 2,
+     "warning": 2
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.12.0",
+   "b": "1.13.1",
+   "env_a": "scipy-1.12.0-t1",
+   "env_b": "scipy-1.13.1-t1",
+   "functions_changed": 6,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 0,
+     "<1e-12": 1,
+     ">=1e-3": 0
+    },
+    "max": 1.1102230246251565e-16,
+    "median": 1.1102230246251565e-16,
+    "n": 1,
+    "p90": 1.1102230246251565e-16
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 6004,
+    "changed": 29,
+    "rate": 0.004830113257828114
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 12,
+     "p_cells": 1,
+     "same": 14
+    },
+    "grid": {
+     "api_added": 20,
+     "bitwise_same": 5863,
+     "cells": 6004,
+     "dtype": 896,
+     "not_applicable": 6,
+     "numeric": 26,
+     "p_cells": 1595,
+     "p_flipped": 0,
+     "p_lost": 2,
+     "rel>1e-06": 1,
+     "rel>1e-09": 26,
+     "rel>1e-12": 100,
+     "same": 5051,
+     "status": 3,
+     "unstable": 2,
+     "warning": 28
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.13.1",
+   "b": "1.14.1",
+   "env_a": "scipy-1.13.1-t1",
+   "env_b": "scipy-1.14.1-t1",
+   "functions_changed": 6,
+   "functions_material": 6,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 6044,
+    "changed": 38,
+    "rate": 0.00628722700198544
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5959,
+     "cells": 6044,
+     "dtype": 6,
+     "not_applicable": 6,
+     "p_cells": 1621,
+     "p_flipped": 0,
+     "p_lost": 18,
+     "same": 5998,
+     "status": 38,
+     "unstable": 2,
+     "warning": 2
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.14.1",
+   "b": "1.15.3",
+   "env_a": "scipy-1.14.1-t1",
+   "env_b": "scipy-1.15.3-t1",
+   "functions_changed": 3,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 0,
+     "<1e-12": 0,
+     ">=1e-3": 1
+    },
+    "max": 0.1925618660481101,
+    "median": 0.1925618660481101,
+    "n": 1,
+    "p90": 0.1925618660481101
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 6045,
+    "changed": 43,
+    "rate": 0.007113316790736146
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5990,
+     "cells": 6045,
+     "dtype": 7,
+     "not_applicable": 6,
+     "numeric": 1,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "p_lost": 4,
+     "rel>0.001": 1,
+     "rel>1e-06": 1,
+     "rel>1e-09": 1,
+     "rel>1e-12": 1,
+     "same": 5989,
+     "status": 42,
+     "unstable": 8,
+     "warning": 6
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 219,
+     "warning": 120
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.15.3",
+   "b": "1.16.3",
+   "env_a": "scipy-1.15.3-t1",
+   "env_b": "scipy-1.16.3-t1",
+   "functions_changed": 3,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 6045,
+    "changed": 6,
+    "rate": 0.0009925558312655087
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 25,
+     "warning": 1
+    },
+    "grid": {
+     "bitwise_same": 6002,
+     "cells": 6045,
+     "dtype": 65,
+     "not_applicable": 6,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "same": 5944,
+     "status": 6,
+     "unstable": 8,
+     "warning": 30
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.9.3",
+   "b": "1.16.3",
+   "env_a": "scipy-1.9.3-t1",
+   "env_b": "scipy-1.16.3-t1",
+   "functions_changed": 23,
+   "functions_material": 23,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 12,
+     "1e-6..1e-3": 5,
+     "<1e-12": 1,
+     ">=1e-3": 4
+    },
+    "max": 0.1925618660481101,
+    "median": 4.0697874303941006e-07,
+    "n": 22,
+    "p90": 0.01237685773032271
+   },
+   "scope": "span",
+   "stats": {
+    "cells": 5419,
+    "changed": 252,
+    "rate": 0.04650304484222181
+   },
+   "stochastic": {
+    "cells": 267,
+    "changed": 11,
+    "rate": 0.04119850187265917
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 12,
+     "p_cells": 1,
+     "same": 13,
+     "warning": 1
+    },
+    "grid": {
+     "api_added": 116,
+     "bitwise_same": 5031,
+     "cells": 5419,
+     "dtype": 1069,
+     "field_added": 510,
+     "not_applicable": 6,
+     "numeric": 40,
+     "p_cells": 1595,
+     "p_flipped": 0,
+     "p_lost": 37,
+     "rel>0.001": 4,
+     "rel>1e-06": 16,
+     "rel>1e-09": 40,
+     "rel>1e-12": 41,
+     "same": 2388,
+     "status": 212,
+     "unstable": 8,
+     "warning": 1710
+    },
+    "stochastic": {
+     "bitwise_same": 255,
+     "cells": 267,
+     "field_added": 72,
+     "numeric": 11,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "rel>0.001": 11,
+     "rel>1e-06": 11,
+     "rel>1e-09": 11,
+     "rel>1e-12": 11,
+     "same": 208,
+     "warning": 48
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t1"
+  },
+  {
+   "a": "1.13.1",
+   "b": "1.14.1",
+   "env_a": "scipy-1.13.1-t2",
+   "env_b": "scipy-1.14.1-t2",
+   "functions_changed": 6,
+   "functions_material": 6,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "overlap",
+   "stats": {
+    "cells": 6044,
+    "changed": 38,
+    "rate": 0.00628722700198544
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5959,
+     "cells": 6044,
+     "dtype": 6,
+     "not_applicable": 6,
+     "p_cells": 1621,
+     "p_flipped": 0,
+     "p_lost": 18,
+     "same": 6000,
+     "status": 38,
+     "unstable": 2
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.14.1",
+   "b": "1.15.3",
+   "env_a": "scipy-1.14.1-t2",
+   "env_b": "scipy-1.15.3-t2",
+   "functions_changed": 3,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 0,
+     "<1e-12": 0,
+     ">=1e-3": 1
+    },
+    "max": 0.1925618660481101,
+    "median": 0.1925618660481101,
+    "n": 1,
+    "p90": 0.1925618660481101
+   },
+   "scope": "overlap",
+   "stats": {
+    "cells": 6045,
+    "changed": 43,
+    "rate": 0.007113316790736146
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5990,
+     "cells": 6045,
+     "dtype": 7,
+     "not_applicable": 6,
+     "numeric": 1,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "p_lost": 4,
+     "rel>0.001": 1,
+     "rel>1e-06": 1,
+     "rel>1e-09": 1,
+     "rel>1e-12": 1,
+     "same": 5995,
+     "status": 42,
+     "unstable": 8
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 219,
+     "warning": 120
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.15.3",
+   "b": "1.16.3",
+   "env_a": "scipy-1.15.3-t2",
+   "env_b": "scipy-1.16.3-t2",
+   "functions_changed": 3,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "overlap",
+   "stats": {
+    "cells": 6045,
+    "changed": 6,
+    "rate": 0.0009925558312655087
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 25,
+     "warning": 1
+    },
+    "grid": {
+     "bitwise_same": 5990,
+     "cells": 6045,
+     "dtype": 65,
+     "not_applicable": 6,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "rel>1e-12": 1,
+     "same": 5944,
+     "status": 6,
+     "unstable": 8,
+     "warning": 30
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.16.3",
+   "b": "1.17.1",
+   "env_a": "scipy-1.16.3-t2",
+   "env_b": "scipy-1.17.1-t2",
+   "functions_changed": 3,
+   "functions_material": 3,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 0,
+     "<1e-12": 0,
+     ">=1e-3": 3
+    },
+    "max": 0.16101432350035128,
+    "median": 0.01984586437380797,
+    "n": 3,
+    "p90": 0.16101432350035128
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 6046,
+    "changed": 108,
+    "rate": 0.017863049950380416
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 115,
+    "rate": 0.3392330383480826
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "p_cells": 1,
+     "same": 26
+    },
+    "grid": {
+     "bitwise_same": 5468,
+     "cells": 6046,
+     "dtype": 5,
+     "flip0.05": 1,
+     "not_applicable": 6,
+     "numeric": 106,
+     "p_cells": 1626,
+     "p_flipped": 1,
+     "p_lost": 1,
+     "rel>0.001": 106,
+     "rel>1e-06": 106,
+     "rel>1e-09": 106,
+     "rel>1e-12": 147,
+     "same": 5897,
+     "status": 2,
+     "unstable": 8,
+     "warning": 36
+    },
+    "stochastic": {
+     "bitwise_same": 203,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "p_lost": 23,
+     "same": 213,
+     "status": 115,
+     "warning": 11
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.17.1",
+   "b": "1.18.1",
+   "env_a": "scipy-1.17.1-t2",
+   "env_b": "scipy-1.18.1-t2",
+   "functions_changed": 5,
+   "functions_material": 5,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 10,
+     "1e-6..1e-3": 1,
+     "<1e-12": 3,
+     ">=1e-3": 0
+    },
+    "max": 1.4552071080364826e-06,
+    "median": 4.714318935228334e-10,
+    "n": 14,
+    "p90": 3.1707228120847475e-08
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 6051,
+    "changed": 29,
+    "rate": 0.004792596265080152
+   },
+   "stochastic": {
+    "cells": 224,
+    "changed": 1,
+    "rate": 0.004464285714285714
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 46,
+     "cells": 56,
+     "dtype": 16,
+     "numeric": 1,
+     "p_cells": 16,
+     "p_lost": 16,
+     "rel>1e-09": 1,
+     "rel>1e-12": 1,
+     "same": 6,
+     "status": 33
+    },
+    "grid": {
+     "bitwise_same": 5612,
+     "cells": 6051,
+     "dtype": 1217,
+     "not_applicable": 6,
+     "numeric": 17,
+     "p_cells": 1627,
+     "p_flipped": 0,
+     "p_lost": 4,
+     "rel>0.001": 5,
+     "rel>1e-06": 6,
+     "rel>1e-09": 17,
+     "rel>1e-12": 43,
+     "same": 4803,
+     "status": 12,
+     "unstable": 8,
+     "warning": 2
+    },
+    "stochastic": {
+     "bitwise_same": 222,
+     "cells": 224,
+     "not_applicable": 23,
+     "p_cells": 25,
+     "p_flipped": 0,
+     "p_lost": 1,
+     "same": 223,
+     "status": 1
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.13.1",
+   "b": "1.18.1",
+   "env_a": "scipy-1.13.1-t2",
+   "env_b": "scipy-1.18.1-t2",
+   "functions_changed": 19,
+   "functions_material": 19,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 10,
+     "1e-6..1e-3": 1,
+     "<1e-12": 3,
+     ">=1e-3": 4
+    },
+    "max": 0.1925618660481101,
+    "median": 7.385522193814609e-10,
+    "n": 18,
+    "p90": 0.16101432350035133
+   },
+   "scope": "span",
+   "stats": {
+    "cells": 6053,
+    "changed": 222,
+    "rate": 0.03667602841566166
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 116,
+    "rate": 0.3421828908554572
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 46,
+     "cells": 56,
+     "dtype": 16,
+     "numeric": 1,
+     "p_cells": 16,
+     "p_lost": 16,
+     "rel>1e-09": 1,
+     "rel>1e-12": 1,
+     "same": 6,
+     "status": 33
+    },
+    "grid": {
+     "bitwise_same": 5001,
+     "cells": 6053,
+     "dtype": 1300,
+     "flip0.05": 1,
+     "not_applicable": 6,
+     "numeric": 124,
+     "p_cells": 1628,
+     "p_flipped": 1,
+     "p_lost": 28,
+     "rel>0.001": 112,
+     "rel>1e-06": 113,
+     "rel>1e-09": 124,
+     "rel>1e-12": 192,
+     "same": 4463,
+     "status": 98,
+     "unstable": 6,
+     "warning": 68
+    },
+    "stochastic": {
+     "bitwise_same": 201,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "p_lost": 24,
+     "same": 217,
+     "status": 116,
+     "warning": 6
+    }
+   },
+   "tool_a": "t2",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.13.1",
+   "b": "1.13.1",
+   "env_a": "scipy-1.13.1-t1",
+   "env_b": "scipy-1.13.1-t2",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "toolchain",
+   "stats": {
+    "cells": 6024,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 16,
+     "p_cells": 1,
+     "same": 10
+    },
+    "grid": {
+     "bitwise_same": 6024,
+     "cells": 6024,
+     "dtype": 1171,
+     "not_applicable": 6,
+     "p_cells": 1603,
+     "p_flipped": 0,
+     "same": 4853,
+     "unstable": 2
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.14.1",
+   "b": "1.14.1",
+   "env_a": "scipy-1.14.1-t1",
+   "env_b": "scipy-1.14.1-t2",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "toolchain",
+   "stats": {
+    "cells": 6044,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 16,
+     "p_cells": 1,
+     "same": 10
+    },
+    "grid": {
+     "bitwise_same": 6044,
+     "cells": 6044,
+     "dtype": 1171,
+     "not_applicable": 6,
+     "p_cells": 1621,
+     "p_flipped": 0,
+     "same": 4867,
+     "unstable": 2,
+     "warning": 6
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.15.3",
+   "b": "1.15.3",
+   "env_a": "scipy-1.15.3-t1",
+   "env_b": "scipy-1.15.3-t2",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "toolchain",
+   "stats": {
+    "cells": 6045,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 16,
+     "p_cells": 1,
+     "same": 10
+    },
+    "grid": {
+     "bitwise_same": 6045,
+     "cells": 6045,
+     "dtype": 1171,
+     "not_applicable": 6,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "same": 4874,
+     "unstable": 8
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t2"
+  },
+  {
+   "a": "1.16.3",
+   "b": "1.16.3",
+   "env_a": "scipy-1.16.3-t1",
+   "env_b": "scipy-1.16.3-t2",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 65,
+   "lib": "scipy",
+   "magnitude": null,
+   "scope": "toolchain",
+   "stats": {
+    "cells": 6045,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 339,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "control": {
+     "bitwise_same": 26,
+     "cells": 26,
+     "dtype": 16,
+     "p_cells": 1,
+     "same": 10
+    },
+    "grid": {
+     "bitwise_same": 6033,
+     "cells": 6045,
+     "dtype": 1171,
+     "not_applicable": 6,
+     "p_cells": 1625,
+     "p_flipped": 0,
+     "rel>1e-12": 1,
+     "same": 4874,
+     "unstable": 8
+    },
+    "stochastic": {
+     "bitwise_same": 339,
+     "cells": 339,
+     "p_cells": 48,
+     "p_flipped": 0,
+     "same": 339
+    }
+   },
+   "tool_a": "t1",
+   "tool_b": "t2"
+  },
+  {
+   "a": "0.13.5",
+   "b": "0.14.0",
+   "env_a": "statsmodels-0.13.5-sm",
+   "env_b": "statsmodels-0.14.0-sm",
+   "functions_changed": 4,
+   "functions_material": 4,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1635,
+    "changed": 32,
+    "rate": 0.019571865443425075
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1603,
+     "cells": 1635,
+     "dtype": 40,
+     "p_cells": 570,
+     "p_flipped": 0,
+     "p_lost": 7,
+     "same": 1043,
+     "status": 32,
+     "warning": 520
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.0",
+   "b": "0.14.1",
+   "env_a": "statsmodels-0.14.0-sm",
+   "env_b": "statsmodels-0.14.1-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.1",
+   "b": "0.14.2",
+   "env_a": "statsmodels-0.14.1-sm",
+   "env_b": "statsmodels-0.14.2-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.2",
+   "b": "0.14.3",
+   "env_a": "statsmodels-0.14.2-sm",
+   "env_b": "statsmodels-0.14.3-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.3",
+   "b": "0.14.4",
+   "env_a": "statsmodels-0.14.3-sm",
+   "env_b": "statsmodels-0.14.4-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.4",
+   "b": "0.14.5",
+   "env_a": "statsmodels-0.14.4-sm",
+   "env_b": "statsmodels-0.14.5-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.5",
+   "b": "0.14.6",
+   "env_a": "statsmodels-0.14.5-sm",
+   "env_b": "statsmodels-0.14.6-sm",
+   "functions_changed": 0,
+   "functions_material": 0,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1634,
+     "cells": 1634,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "same": 1634
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.14.6",
+   "b": "0.15.0",
+   "env_a": "statsmodels-0.14.6-sm",
+   "env_b": "statsmodels-0.15.0-sm",
+   "functions_changed": 1,
+   "functions_material": 1,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": {
+    "bins": {
+     "1e-12..1e-6": 0,
+     "1e-6..1e-3": 3,
+     "<1e-12": 0,
+     ">=1e-3": 0
+    },
+    "max": 0.000651810405557951,
+    "median": 0.0005116165066778589,
+    "n": 3,
+    "p90": 0.000651810405557951
+   },
+   "scope": "primary",
+   "stats": {
+    "cells": 1634,
+    "changed": 10,
+    "rate": 0.006119951040391677
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1612,
+     "cells": 1634,
+     "dtype": 10,
+     "numeric": 10,
+     "p_cells": 569,
+     "p_flipped": 0,
+     "rel>0.001": 7,
+     "rel>1e-06": 10,
+     "rel>1e-09": 10,
+     "rel>1e-12": 10,
+     "same": 1604,
+     "warning": 10
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  },
+  {
+   "a": "0.13.5",
+   "b": "0.15.0",
+   "env_a": "statsmodels-0.13.5-sm",
+   "env_b": "statsmodels-0.15.0-sm",
+   "functions_changed": 4,
+   "functions_material": 4,
+   "functions_total": 17,
+   "lib": "statsmodels",
+   "magnitude": null,
+   "scope": "span",
+   "stats": {
+    "cells": 1635,
+    "changed": 32,
+    "rate": 0.019571865443425075
+   },
+   "stochastic": {
+    "cells": 0,
+    "changed": 0,
+    "rate": 0.0
+   },
+   "tally": {
+    "grid": {
+     "bitwise_same": 1591,
+     "cells": 1635,
+     "dtype": 50,
+     "p_cells": 570,
+     "p_flipped": 0,
+     "p_lost": 7,
+     "same": 1023,
+     "status": 32,
+     "warning": 530
+    }
+   },
+   "tool_a": "sm",
+   "tool_b": "sm"
+  }
+ ],
+ "platforms": [
+  "Windows-AMD64"
+ ],
+ "repeatability": {
+  "envs": 23,
+  "identical": 10,
+  "unstable_cells": 39
+ }
+}
