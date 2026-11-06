@@ -1,0 +1,44 @@
+# The study matrix. Every adjacent pair of releases in a chain shares one toolchain, so a
+# diff between them can only come from the library under study. See docs/DESIGN.md.
+
+[toolchains.t1]
+python = "3.11"
+numpy = "1.25.2"
+
+[toolchains.t2]
+python = "3.12"
+numpy = "2.0.2"
+
+[toolchains.sm]
+python = "3.11"
+numpy = "1.25.2"
+scipy = "1.11.4"
+pandas = "1.5.3"
+patsy = "0.5.6"
+
+# Last patch of each minor release, the version a user on that minor actually runs.
+[[chains]]
+lib = "scipy"
+toolchain = "t1"
+versions = ["1.9.3", "1.10.1", "1.11.4", "1.12.0", "1.13.1", "1.14.1", "1.15.3", "1.16.3"]
+
+# 1.13.1 to 1.16.3 are overlap: the same steps again under t2.
+[[chains]]
+lib = "scipy"
+toolchain = "t2"
+versions = ["1.13.1", "1.14.1", "1.15.3", "1.16.3", "1.17.1", "1.18.1"]
+overlap_until = "1.16.3"
+
+# statsmodels ships fixes in patch releases, so every 0.14.x is measured.
+[[chains]]
+lib = "statsmodels"
+toolchain = "sm"
+versions = ["0.13.5", "0.14.0", "0.14.1", "0.14.2", "0.14.3", "0.14.4", "0.14.5", "0.14.6", "0.15.0"]
+
+[notes]
+scipy_commit = "c818f76bf5be4aa8418ddcc3f7915de457eb0754"
+statsmodels_commit = "c5ec23d721ba11b3bce6f1223f1dc83a27da1399"
+# Files on statsmodels main use these names; 0.14.5 and 0.14.6 have no file there, so their
+# GitHub release bodies stand in.
+statsmodels_files = { "0.14.0" = "version0.14.0.rst", "0.14.1" = "version0.14.1.rst", "0.14.2" = "version0.14.2.rst", "0.14.3" = "version0.14.3.rst", "0.14.4" = "version0.14.4.rst", "0.15.0" = "version0.15.0.rst" }
+statsmodels_github_only = ["0.14.5", "0.14.6"]

@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.json -text
+*.jsonl -text
+notes/** -text
+uv.lock -text

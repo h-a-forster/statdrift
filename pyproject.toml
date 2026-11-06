@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "statdrift"
+version = "0.1.0"
+description = "How often p-values and estimates change between SciPy and statsmodels releases, and whether the release notes said so."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "statdrift contributors" }]
+keywords = ["reproducibility", "statistics", "scipy", "statsmodels", "software drift"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+# The differ and the orchestration are standard library only. numpy (dev) builds the
+# battery; each pinned environment under envs/ holds the libraries under study.
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/h-a-forster/statdrift"
+Issues = "https://github.com/h-a-forster/statdrift/issues"
+
+[project.scripts]
+statdrift = "statdrift.cli:main"
+
+[dependency-groups]
+dev = ["numpy>=2.0", "pytest>=8", "ruff>=0.6", "scipy>=1.14"]
+
+[tool.uv]
+# Lock only releases at least two weeks old; move this date deliberately.
+exclude-newer = "2026-10-23T00:00:00Z"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/statdrift"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["tmp", "envs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# Runs under Python 3.9 for the regression fixture, so it cannot use newer syntax.
+"src/statdrift/runner.py" = ["UP", "SIM"]
