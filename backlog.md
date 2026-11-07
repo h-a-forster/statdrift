@@ -17,3 +17,5 @@
 - A second platform (Linux) runs the battery, so cross-platform differences are measured.
 - SciPy patch releases inside a minor are diffed.
 - A second coder repeats `results/coding.csv`, so agreement can be reported.
+- Exact Clopper-Pearson in `diff.py` gets slow past n of about 200 (8 s at 200); switch method before unit counts grow.
+- On POSIX only the direct child is killed, so the deadline reader would block if a runner grandchild inherited stdout.
