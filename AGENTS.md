@@ -31,11 +31,11 @@ change, not correctness.
 - Generated, never hand-edited: `results/summary.*`, `results/changes.jsonl`,
   `results/documented.csv`, `results/repeatability.json`. `results/repeat/` is committed: it
   is what `repeatability.json` is derived from. `results/coding.csv` is hand-written. The
-  README's headline table and the tables in `REPORT.md`, once it is added (see `backlog.md`),
-  are copied from `results/summary.md`; tests check both, and a `REPORT.md` row written by hand
-  must contain the text `(by hand)`.
-- No network in tests, `diff` or `repeat`. CI runs only on pull requests and manual dispatch
-  (metered minutes, private repository). Do not dispatch it casually.
+  README's headline table and the tables in `REPORT.md` are copied from
+  `results/summary.md`; tests check both, and a `REPORT.md` row written by hand must contain
+  the text `(by hand)`.
+- No network in tests, `diff` or `repeat`. CI runs on pushes to main, pull requests and
+  manual dispatch.
 - Release hygiene: no personal names, local user paths or machine details in committed
   files. Scratch files go in `tmp/` (gitignored). No `.bak` copies; use git.
 - Change notes go in `docs/release-notes-<version>.md`. Open work lives in `backlog.md`.
