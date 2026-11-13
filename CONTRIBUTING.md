@@ -21,8 +21,8 @@ uv run ruff format --check .
 uv run statdrift envs --check    # uv lock --check in every environment
 ```
 
-CI runs lint and tests on pull requests only. Tests must run offline, write only under
-pytest's `tmp_path`, and pass on Windows. A bug fix comes with a test that fails without it.
+CI runs lint and tests on pushes to main, pull requests and manual dispatch. Tests must run
+offline, write only under pytest's `tmp_path`, and pass on Windows. A bug fix comes with a test that fails without it.
 
 ## Rules that keep the numbers honest
 
