@@ -28,7 +28,7 @@ def make_row(fn="scipy.stats.f", variant="default", input_="in", field="pvalue",
 def write_results(path: Path, rows: list[dict]) -> Path:
     lines = [json.dumps({"meta": {"platform": "test", "battery_sha256": "x"}})]
     lines += [json.dumps(row) for row in rows]
-    lines.append(json.dumps({"end": len(rows)}))
+    lines.append(json.dumps({"end": len({(r["fn"], r["variant"], r["input"]) for r in rows})}))
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
 

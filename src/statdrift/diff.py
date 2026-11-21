@@ -40,21 +40,28 @@ def has_number(row: dict) -> bool:
 
 
 def load(path: Path) -> tuple[dict, dict[Key, dict[str, dict]]]:
-    """Read a results file. Fails on a file with no end marker: partial runs are not data."""
+    """Read a results file. Fails on a file with no end marker, with a call missing or with a
+    cell written twice: partial and interleaved runs are not data."""
     meta: dict = {}
     calls: dict[Key, dict[str, dict]] = defaultdict(dict)
-    complete = False
+    end = None
     with path.open(encoding="utf-8") as handle:
         for line in handle:
             row = json.loads(line)
             if "meta" in row:
                 meta = row["meta"]
             elif "end" in row:
-                complete = True
+                end = row["end"]
             else:
-                calls[(row["fn"], row["variant"], row["input"])][row["field"]] = row
-    if not complete:
+                fields = calls[(row["fn"], row["variant"], row["input"])]
+                if row["field"] in fields:
+                    # Two writers, or a resume that did not trim: neither row can be trusted.
+                    raise ValueError(f"{path.name} holds call {row.get('call')} twice")
+                fields[row["field"]] = row
+    if end is None:
         raise ValueError(f"{path.name} has no end marker: the run did not finish")
+    if len(calls) != end:
+        raise ValueError(f"{path.name} holds {len(calls)} calls, its end marker says {end}")
     return meta, dict(calls)
 
 
@@ -72,6 +79,11 @@ def differs(a: float, b: float, kind: str, tol: float) -> bool:
     return relative(a, b) > tol and abs(a - b) > floor_for(kind)
 
 
+def crossed(x: float, y: float) -> list[float]:
+    """The thresholds two p-values fall on different sides of."""
+    return [alpha for alpha in ALPHAS if (x < alpha) != (y < alpha)]
+
+
 def classify(a: dict, b: dict) -> str:
     """Label one pair of rows, in order of what a user would notice first."""
     if a["field"] != b["field"] and "*" not in (a["field"], b["field"]):
@@ -83,7 +95,11 @@ def classify(a: dict, b: dict) -> str:
         return SAME if ea == eb else STATUS
     va, vb = a["value"], b["value"]
     if is_number(va) and is_number(vb):
-        if differs(float(va), float(vb), b["kind"], TOL):
+        x, y = float(va), float(vb)
+        # A p-value that crosses a threshold is a change however small the step, so every
+        # counted flip is also a listed change.
+        kind = "p" if "p" in (a["kind"], b["kind"]) else "x"  # as _count_cell decides it
+        if differs(x, y, kind, TOL) or (kind == "p" and crossed(x, y)):
             return NUMERIC
     elif va != vb:
         return STATUS
@@ -194,7 +210,7 @@ def _count_cell(
     if kind == "p":
         tally["p_cells"] += 1
         if numbers:
-            flips = [alpha for alpha in ALPHAS if (x < alpha) != (y < alpha)]
+            flips = crossed(x, y)
             for alpha in flips:
                 tally[f"flip{alpha:g}"] += 1
             tally["p_flipped"] += bool(flips)

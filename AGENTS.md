@@ -38,7 +38,7 @@ change, not correctness.
   manual dispatch.
 - Release hygiene: no personal names, local user paths or machine details in committed
   files. Scratch files go in `tmp/` (gitignored). No `.bak` copies; use git.
-- Change notes go in `docs/release-notes-<version>.md`. Open work lives in `backlog.md`.
+- Change notes go in `docs/release-notes-<version>.md`. Open work is tracked outside the repository.
 - Statistical honesty: the battery is a designed sample, so rates describe it and nothing
   else. Say so wherever a rate appears.
 
@@ -80,4 +80,4 @@ directories afterwards with `statdrift envs --clean`.
 
 ## Status
 
-See `backlog.md` for open work and `results/summary.md` for the findings.
+See `results/summary.md` for the findings.

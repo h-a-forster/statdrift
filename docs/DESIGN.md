@@ -100,7 +100,7 @@ For a pair of releases, each cell is exactly one of:
 
 | Class | Rule | In the rate? |
 |---|---|---|
-| numeric | both numbers, `abs(a-b) > 1e-9 * max(abs(a), abs(b))` and `abs(a-b) > floor` | changed |
+| numeric | both numbers, `abs(a-b) > 1e-9 * max(abs(a), abs(b))` and `abs(a-b) > floor`, or a p-value on the other side of 0.05 or 0.01 | changed |
 | status | number vs NaN/inf/masked/exception, or a different exception type, or a keyword that vanished | changed |
 | dtype | equal within tolerance, type differs | in denominator, not changed |
 | warning | equal, warning categories differ | in denominator, not changed |
@@ -112,6 +112,11 @@ For a pair of releases, each cell is exactly one of:
 
 The floor is 1e-12 for non-p fields, 1e-300 for p-values. Where one side raised, every field
 of the other side is a status cell, so a raising call costs what it would cost a user.
+
+The sensitivity table in the report counts numeric cells by relative size alone. A p-value
+that crosses 0.05 or 0.01 by less than 1e-9 relative is numeric but not in the `rel > 1e-09`
+column, so that column can fall short of the numeric count by such cells. The committed data
+have none.
 
 ## 6. Estimands
 
@@ -193,6 +198,11 @@ in a share over these units, not a population of functions.
 - A change is not a bug and no change is not correctness.
 - Patch releases inside a minor are not diffed for SciPy.
 - One platform, one machine. Other BLAS builds and CPUs can differ.
+- The watchdog's deadline runs from one call's mark to the next, so it also covers the first
+  library import (call 0) and, after the last call, the interpreter's exit. A very slow import
+  or exit is recorded as a `Timeout` of that call. The committed files have no `Timeout` rows.
+- Instability is judged per environment. A Monte Carlo call can agree with itself by chance in
+  one environment and so stay in its pairs (section 11, 2026-11-21).
 - The documented share reads notes the way a careful user would. A change explained only in
   a linked pull request does not count unless its title is in the notes (tier any).
 
@@ -241,6 +251,23 @@ after results were visible, unless stated.
   `NoFields` row. Its rows are unchanged: `scipy-1.9.3-t1` and `statsmodels-0.15.0-sm`, rerun with
   the new runner, match their committed files byte for byte. The parent now trims a call's rows
   before writing its failure row, and stops if the runner dies before its first call.
+
+- Second audit, 2026-11-21. No measured cell and no generated file changed: `statdrift repeat`
+  and `statdrift diff` on the committed result files rewrite `results/` byte for byte. Differ:
+  a p-value that crossed 0.05 or 0.01 by less than the 1e-9 tolerance was counted as a flip but
+  filed as same, so it was in no table of changed cells; a crossing is now always a numeric
+  change, and a field is a p-value if it is one on either side. A results file with a cell
+  written twice or a call missing against its end marker is now refused, as a file with no end
+  marker already was. Reproduction: all 23 environments were rebuilt from their locks and the
+  battery rerun, under other interpreter patch releases (Python 3.11.17 against 3.11.9, 3.12.10
+  against 3.12.13). Outside the calls listed as unstable, every cell matched in 20
+  environments and both `somersd` crashes recurred. In `scipy-1.16.3-t2` and `scipy-1.17.1-t2`
+  call 0 was recorded as `Timeout`: its first `import scipy.stats` ran past the deadline on a
+  heavily loaded machine (section 9). In `scipy-1.18.1-t2`, `fisher_exact` on `table/r3x3` gave
+  p 0.0001 against 0.0003 committed: the unseeded Monte Carlo default, unstable in 1.15.3 to
+  1.17.1, whose two committed 1.18.1 runs agreed by chance. No number depends on it: the
+  1.17.1 -> 1.18.1 step excludes it, and the one-jump row `1.13.1 -> 1.18.1` counts it as a
+  status change (ValueError in 1.13.1) whatever the draw.
 
 ## 12. Audit findings rejected
 

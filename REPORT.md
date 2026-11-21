@@ -44,10 +44,10 @@ verdict flip, and how often did the release notes say so?
   1.11.4. Each run uses one BLAS thread, `PYTHONHASHSEED=0`, `python -I`, and seeds derived from
   each call's id.
 - **Cells.** A cell is one (function, variant, input, field). A cell counts as changed if a number
-  moves by more than 1e-9 relative (with a floor of 1e-12, or 1e-300 for p) or if its status
-  changes: a number becomes NaN, infinite or an exception, or the reverse. A change is material
-  above 1e-6 relative, or if it is a status change. Changes only in dtype or warnings, newly
-  accepted keywords and added fields are counted apart.
+  moves by more than 1e-9 relative (with a floor of 1e-12, or 1e-300 for p), if a p-value crosses
+  0.05 or 0.01, or if its status changes: a number becomes NaN, infinite or an exception, or the
+  reverse. A change is material above 1e-6 relative, or if it is a status change. Changes only in
+  dtype or warnings, newly accepted keywords and added fields are counted apart.
 - **Documented share.** The unit is one function in one step with a material change. Mechanical
   tiers: the name appears anywhere in the notes, in the narrative, or in a compatibility section.
   Two coded tiers come from reading every line that names the function: pointed and explained. One
@@ -131,6 +131,8 @@ collinear or similar data. This split was chosen after the results were seen, so
 | statsmodels | 13073 | 13019 | 10 | 10 | 10 | 7 |
 
 Above 1e-9, most numeric changes are also above 1e-3. The headline does not rest on rounding.
+The columns measure relative size only: a p-value crossing 0.05 or 0.01 by less than 1e-9
+would count as changed in the headline but not under `rel > 1e-09`. The data have no such cell.
 
 ### Documented share
 

@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
-from statdrift import cli, diff, report, study
+from statdrift import __version__, cli, diff, report, study
 
 FAKE = """
 import argparse, json, sys, time
@@ -48,6 +49,12 @@ with open(a.out, "a", newline="\\n") as out:
 """
 
 
+# Seconds a stand-in call may take. An ordinary call, and the interpreter's start and exit
+# around it, must fit with room to spare on a loaded machine (3 s did not), while every
+# planted hang sleeps for 60 s.
+DEADLINE = 10.0
+
+
 def stand_in(tmp_path: Path, inputs: list[str]) -> Path:
     calls = [
         {"id": name, "lib": "scipy", "fn": "f", "variant": "v", "input": name, "group": "grid"}
@@ -63,7 +70,7 @@ def stand_in(tmp_path: Path, inputs: list[str]) -> Path:
 def test_hang_and_crash_become_rows_and_the_run_finishes(tmp_path, monkeypatch):
     monkeypatch.setattr(study, "RUNNER", stand_in(tmp_path, ["a", "hang", "b", "crash", "c"]))
     out = tmp_path / "results" / "x.jsonl"
-    failures = study.run_battery(Path(sys.executable), "scipy", out, tmp_path, timeout=3.0)
+    failures = study.run_battery(Path(sys.executable), "scipy", out, tmp_path, timeout=DEADLINE)
     assert failures == {"timeouts": 1, "crashes": 1}
     _, calls = diff.load(out)
     assert calls[("f", "v", "hang")]["*"]["exception"] == "Timeout"
@@ -75,7 +82,7 @@ def test_a_call_stopped_at_the_deadline_leaves_exactly_one_failed_row(tmp_path, 
     names = ["a", "finished-late", "torn", "chatty-hang", "noise", "b"]
     monkeypatch.setattr(study, "RUNNER", stand_in(tmp_path, names))
     out = tmp_path / "results" / "x.jsonl"
-    failures = study.run_battery(Path(sys.executable), "scipy", out, tmp_path, timeout=2.0)
+    failures = study.run_battery(Path(sys.executable), "scipy", out, tmp_path, timeout=DEADLINE)
     assert failures == {"timeouts": 3, "crashes": 0}
     # A runner left alive holds the file open, and Windows then refuses to move it.
     out.rename(out.with_name("moved.jsonl"))
@@ -154,6 +161,13 @@ def test_the_command_refuses_to_run_outside_a_checkout(tmp_path, monkeypatch, ca
         cli.main(["battery"])
     assert "checkout" in capsys.readouterr().err
     assert not (tmp_path / "battery").exists()
+
+
+def test_the_module_runs_the_command_instead_of_exiting_silently():
+    done = subprocess.run(
+        [sys.executable, "-m", "statdrift.cli", "--version"], capture_output=True, text=True
+    )
+    assert done.stdout.strip() == __version__
 
 
 def test_resume_drops_a_torn_tail_and_reruns_the_last_call(tmp_path):

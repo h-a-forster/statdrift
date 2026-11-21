@@ -69,6 +69,22 @@ def test_rounding_around_zero_is_not_a_change_but_a_small_p_is(results):
     assert tally[diff.NUMERIC] == 1
 
 
+def test_a_crossing_inside_the_tolerance_is_still_a_listed_change(results):
+    before, after = make_row(value=0.05), make_row(value=0.05 * (1 - 1e-12))
+    tally, changes = compare(results, [before], [after])
+    assert tally["p_flipped"] == 1
+    assert [c.flips for c in changes] == [[0.05]]  # counted and listed, or neither
+    assert tally[diff.NUMERIC] == 1
+    assert not changes[0].material
+    # A field that is a p-value on one side only is still a p-value.
+    tally, changes = compare(results, [before], [dict(after, kind="x")])
+    assert tally["p_flipped"] == 1
+    assert [c.flips for c in changes] == [[0.05]]
+    # The same step away from a threshold stays rounding.
+    tally, changes = compare(results, [make_row(value=0.2)], [make_row(value=0.2 * (1 - 1e-12))])
+    assert not changes
+
+
 def test_a_raising_call_covers_every_field_of_the_other_side(results):
     failed = make_row(field="*", value=None, dtype=None, exception="ValueError")
     fine = [make_row(field="pvalue"), make_row(field="statistic", value=2.0)]
@@ -143,6 +159,16 @@ def test_unfinished_file_is_refused(tmp_path):
     path.write_text('{"meta": {}}\n', encoding="utf-8")
     with pytest.raises(ValueError, match="end marker"):
         diff.load(path)
+
+
+def test_a_repeated_cell_and_a_missing_call_are_refused(results):
+    with pytest.raises(ValueError, match="twice"):
+        diff.load(results("twice.jsonl", [make_row(), make_row(value=0.9)]))
+    short = results("short.jsonl", [make_row(input_="a"), make_row(input_="b")])
+    lines = short.read_text(encoding="utf-8").splitlines(keepends=True)
+    short.write_text("".join(lines[:2] + lines[3:]), encoding="utf-8")  # drop call "b"
+    with pytest.raises(ValueError, match="holds 1 calls"):
+        diff.load(short)
 
 
 def test_different_batteries_are_refused(results):

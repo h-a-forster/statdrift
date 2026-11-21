@@ -50,3 +50,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "diff":
         report.write()
     return 0
+
+
+if __name__ == "__main__":  # python -m statdrift.cli, which otherwise does nothing
+    raise SystemExit(main())
